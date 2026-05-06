@@ -41,25 +41,39 @@ body {
   flex-wrap: wrap;
 }
 
-.exchange-input {
-  width: 180px;
-  height: 32px;
-  padding: 0 10px;
+.exchange-input-wrapper {
+  display: flex;
+  align-items: center;
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: 6px;
   background: rgba(255,255,255,0.1);
+  transition: border-color 0.2s;
+}
+
+.exchange-input-wrapper:focus-within {
+  border-color: #e94560;
+}
+
+.exchange-input {
+  width: 130px;
+  height: 32px;
+  padding: 0 8px;
+  border: none;
+  background: transparent;
   color: #fff;
   font-size: 13px;
   outline: none;
-  transition: border-color 0.2s;
 }
 
 .exchange-input::placeholder {
   color: rgba(255,255,255,0.4);
 }
 
-.exchange-input:focus {
-  border-color: #e94560;
+.exchange-suffix {
+  padding: 0 10px 0 2px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
 }
 
 .exchange-hint {

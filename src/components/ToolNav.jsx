@@ -1,6 +1,6 @@
 const tools = [
   { id: 'gem-calculator', label: '宝石成本' },
-  { id: 'tool-2', label: '工具2', disabled: true },
+  { id: 'star-stone-calculator', label: '星辉石' },
   { id: 'tool-3', label: '工具3', disabled: true },
 ]
 
@@ -16,15 +16,18 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangba
     <nav className="tool-nav">
       <h1 className="tool-nav-title">梦幻西游工具集</h1>
       <div className="tool-nav-exchange">
-        <input
-          type="number"
-          className="exchange-input"
-          min="0"
-          step="0.01"
-          placeholder="藏宝阁价格（元/万两）"
-          value={cangbaogePrice ?? ''}
-          onChange={(e) => onCangbaogePriceChange(e.target.value === '' ? null : Number(e.target.value))}
-        />
+        <span className="exchange-input-wrapper">
+          <input
+            type="number"
+            className="exchange-input"
+            min="0"
+            step="0.01"
+            placeholder="藏宝阁价格"
+            value={cangbaogePrice ?? ''}
+            onChange={(e) => onCangbaogePriceChange(e.target.value === '' ? null : Number(e.target.value))}
+          />
+          <span className="exchange-suffix">元/万两</span>
+        </span>
         {sanQianWan != null && (
           <span className="exchange-hint">
             {sanQianWan.toFixed(2)} 元/3000万两 | {liangPerDian.toFixed(2)} 两/点

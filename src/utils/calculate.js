@@ -1,24 +1,23 @@
-import { gemRecipes, MAX_LEVEL } from '../data/gemRecipes.js'
-
-// Memoized recursive: how many level-1 gems to make one gem of given level
-const level1CountCache = { 1: 1 }
-
-export function getLevel1Count(level) {
-  if (level1CountCache[level] !== undefined) return level1CountCache[level]
-  const recipe = gemRecipes[level]
-  if (!recipe) return 0
-  let total = 0
-  for (const [componentLevel, count] of Object.entries(recipe)) {
-    total += getLevel1Count(Number(componentLevel)) * count
+export function getLevel1Count(recipes, level) {
+  const cache = { 1: 1 }
+  function compute(l) {
+    if (cache[l] !== undefined) return cache[l]
+    const recipe = recipes[l]
+    if (!recipe) return 0
+    let total = 0
+    for (const [componentLevel, count] of Object.entries(recipe)) {
+      total += compute(Number(componentLevel)) * count
+    }
+    cache[l] = total
+    return total
   }
-  level1CountCache[level] = total
-  return total
+  return compute(level)
 }
 
 // Format the recipe as human-readable text like "2个1级"
-export function formatRecipe(level) {
+export function formatRecipe(recipes, level) {
   if (level === 1) return '—'
-  const recipe = gemRecipes[level]
+  const recipe = recipes[level]
   if (!recipe) return '—'
   const parts = Object.entries(recipe)
     .sort((a, b) => Number(b[0]) - Number(a[0])) // higher level first
@@ -26,11 +25,24 @@ export function formatRecipe(level) {
   return parts.join('+')
 }
 
-// Calculate all costs for levels 1..MAX_LEVEL
-export function calculateCosts(gemPrice, cangbaogePrice, synthesisCosts = {}) {
+// Calculate all costs for levels 1..maxLevel
+export function calculateCosts(recipes, maxLevel, gemPrice, cangbaogePrice, synthesisCosts = {}) {
+  const cache = { 1: 1 }
+  function getCount(level) {
+    if (cache[level] !== undefined) return cache[level]
+    const recipe = recipes[level]
+    if (!recipe) return 0
+    let total = 0
+    for (const [componentLevel, count] of Object.entries(recipe)) {
+      total += getCount(Number(componentLevel)) * count
+    }
+    cache[level] = total
+    return total
+  }
+
   const rows = []
-  for (let level = 1; level <= MAX_LEVEL; level++) {
-    const level1Count = getLevel1Count(level)
+  for (let level = 1; level <= maxLevel; level++) {
+    const level1Count = getCount(level)
     const materialCostLiang = level1Count * gemPrice
     const materialCostYuan = materialCostLiang / 10000 * cangbaogePrice
     const synthesisCost = synthesisCosts[level] || 0
@@ -39,7 +51,7 @@ export function calculateCosts(gemPrice, cangbaogePrice, synthesisCosts = {}) {
 
     rows.push({
       level,
-      recipe: formatRecipe(level),
+      recipe: formatRecipe(recipes, level),
       level1Count,
       materialCostLiang,
       materialCostYuan,
