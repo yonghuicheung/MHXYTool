@@ -46,7 +46,7 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
                   className="synthesis-input"
                   min="0"
                   placeholder="可选"
-                  value={synthesisCosts[row.level] || ''}
+                  value={synthesisCosts[row.level] ?? ''}
                   onChange={(e) => onSynthesisCostChange(row.level, e.target.value === '' ? null : Number(e.target.value))}
                 />
               </td>
