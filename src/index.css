@@ -22,13 +22,51 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  height: 56px;
+  min-height: 56px;
+  gap: 16px;
+  flex-wrap: wrap;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .tool-nav-title {
   font-size: 18px;
   font-weight: 700;
+  white-space: nowrap;
+}
+
+.tool-nav-exchange {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.exchange-input {
+  width: 180px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.exchange-input::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+.exchange-input:focus {
+  border-color: #e94560;
+}
+
+.exchange-hint {
+  font-size: 12px;
+  color: #e94560;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .tool-nav-tabs {
@@ -123,21 +161,9 @@ body {
   box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
 }
 
-.conversion-hint {
-  font-size: 13px;
-  color: #e94560;
-  font-weight: 500;
-}
-
 /* Result Table */
 .table-wrapper {
   overflow-x: auto;
-}
-
-.table-empty {
-  text-align: center;
-  color: #999;
-  padding: 40px 0;
 }
 
 .result-table {

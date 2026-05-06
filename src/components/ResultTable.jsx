@@ -18,10 +18,6 @@ function formatYuan(num) {
 }
 
 export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChange }) {
-  if (rows.length === 0) {
-    return <p className="table-empty">请输入宝石价格和藏宝阁价格后查看结果</p>
-  }
-
   return (
     <div className="table-wrapper">
       <table className="result-table">

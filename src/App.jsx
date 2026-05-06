@@ -4,18 +4,28 @@ import GemCalculator from './components/GemCalculator'
 
 export default function App() {
   const [activeTool, setActiveTool] = useState('gem-calculator')
+  const [cangbaogePrice, setCangbaogePrice] = useState(null)
 
   const handleSelectTool = useCallback((toolId) => {
     setActiveTool(toolId)
-    const el = document.getElementById(toolId)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
+  const handleCangbaogePriceChange = useCallback((value) => {
+    setCangbaogePrice(value)
   }, [])
 
   return (
     <div className="app">
-      <ToolNav activeTool={activeTool} onSelect={handleSelectTool} />
+      <ToolNav
+        activeTool={activeTool}
+        onSelect={handleSelectTool}
+        cangbaogePrice={cangbaogePrice}
+        onCangbaogePriceChange={handleCangbaogePriceChange}
+      />
       <main className="main-content">
-        <GemCalculator />
+        {activeTool === 'gem-calculator' && (
+          <GemCalculator cangbaogePrice={cangbaogePrice} />
+        )}
       </main>
     </div>
   )
