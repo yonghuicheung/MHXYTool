@@ -3,9 +3,13 @@ import { calculateCosts } from '../utils/calculate'
 import { starStoneRecipes, STAR_STONE_MAX_LEVEL } from '../data/starStoneRecipes'
 import ResultTable from './ResultTable'
 
-export default function StarStoneCalculator({ cangbaogePrice }) {
-  const [gemPrice, setGemPrice] = useState(null)
-  const [synthesisCosts, setSynthesisCosts] = useState({})
+interface CalculatorProps {
+  cangbaogePrice: number | null
+}
+
+export default function StarStoneCalculator({ cangbaogePrice }: CalculatorProps) {
+  const [gemPrice, setGemPrice] = useState<number | null>(null)
+  const [synthesisCosts, setSynthesisCosts] = useState<Record<number, number>>({})
 
   const rows = useMemo(() => {
     const price = gemPrice != null && gemPrice > 0 ? gemPrice : 0
@@ -13,10 +17,10 @@ export default function StarStoneCalculator({ cangbaogePrice }) {
     return calculateCosts(starStoneRecipes, STAR_STONE_MAX_LEVEL, price, cbPrice, synthesisCosts)
   }, [gemPrice, cangbaogePrice, synthesisCosts])
 
-  const handleSynthesisCostChange = useCallback((level, value) => {
+  const handleSynthesisCostChange = useCallback((level: number, value: number | null) => {
     setSynthesisCosts((prev) => {
       const next = { ...prev }
-      if (value === null || value === '' || value < 0) {
+      if (value === null || value < 0) {
         delete next[level]
       } else {
         next[level] = value

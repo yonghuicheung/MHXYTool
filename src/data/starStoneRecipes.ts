@@ -1,6 +1,6 @@
-// starStoneRecipes[level] = { componentLevel: count, ... }
-// Level 1 has no recipe (it's the base material)
-export const starStoneRecipes = {
+import type { Recipe } from './gemRecipes'
+
+export const starStoneRecipes: Record<number, Recipe> = {
   2: { 1: 3 },
   3: { 2: 3 },
   4: { 3: 3 },

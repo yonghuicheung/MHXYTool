@@ -5,13 +5,13 @@ import StarStoneCalculator from './components/StarStoneCalculator'
 
 export default function App() {
   const [activeTool, setActiveTool] = useState('gem-calculator')
-  const [cangbaogePrice, setCangbaogePrice] = useState(null)
+  const [cangbaogePrice, setCangbaogePrice] = useState<number | null>(null)
 
-  const handleSelectTool = useCallback((toolId) => {
+  const handleSelectTool = useCallback((toolId: string) => {
     setActiveTool(toolId)
   }, [])
 
-  const handleCangbaogePriceChange = useCallback((value) => {
+  const handleCangbaogePriceChange = useCallback((value: number | null) => {
     setCangbaogePrice(value)
   }, [])
 

@@ -1,6 +1,6 @@
-// gemRecipes[level] = { componentLevel: count, ... }
-// Level 1 has no recipe (it's the base material)
-export const gemRecipes = {
+export type Recipe = Record<number, number>
+
+export const gemRecipes: Record<number, Recipe> = {
   2: { 1: 2 },
   3: { 2: 2 },
   4: { 3: 2 },

@@ -1,3 +1,5 @@
+import type { CostRow } from '../utils/calculate'
+
 const HEADERS = [
   '等级',
   '所需材料',
@@ -9,15 +11,21 @@ const HEADERS = [
   '总成本（元）',
 ]
 
-function formatLiang(num) {
+function formatLiang(num: number): string {
   return Math.round(num).toLocaleString('zh-CN')
 }
 
-function formatYuan(num) {
+function formatYuan(num: number): string {
   return num.toFixed(2)
 }
 
-export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChange }) {
+interface ResultTableProps {
+  rows: CostRow[]
+  synthesisCosts: Record<number, number>
+  onSynthesisCostChange: (level: number, value: number | null) => void
+}
+
+export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChange }: ResultTableProps) {
   return (
     <div className="table-wrapper">
       <table className="result-table">

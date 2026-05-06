@@ -4,6 +4,17 @@
   box-sizing: border-box;
 }
 
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: #f0f2f5;
@@ -23,9 +34,14 @@ body {
   justify-content: space-between;
   padding: 0 24px;
   min-height: 56px;
-  gap: 16px;
-  flex-wrap: wrap;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.tool-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .tool-nav-title {

@@ -1,6 +1,19 @@
-export function getLevel1Count(recipes, level) {
-  const cache = { 1: 1 }
-  function compute(l) {
+import type { Recipe } from '../data/gemRecipes'
+
+export interface CostRow {
+  level: number
+  recipe: string
+  level1Count: number
+  materialCostLiang: number
+  materialCostYuan: number
+  synthesisCost: number
+  totalCostLiang: number
+  totalCostYuan: number
+}
+
+export function getLevel1Count(recipes: Record<number, Recipe>, level: number): number {
+  const cache: Record<number, number> = { 1: 1 }
+  function compute(l: number): number {
     if (cache[l] !== undefined) return cache[l]
     const recipe = recipes[l]
     if (!recipe) return 0
@@ -15,7 +28,7 @@ export function getLevel1Count(recipes, level) {
 }
 
 // Format the recipe as human-readable text like "2个1级"
-export function formatRecipe(recipes, level) {
+export function formatRecipe(recipes: Record<number, Recipe>, level: number): string {
   if (level === 1) return '—'
   const recipe = recipes[level]
   if (!recipe) return '—'
@@ -26,9 +39,15 @@ export function formatRecipe(recipes, level) {
 }
 
 // Calculate all costs for levels 1..maxLevel
-export function calculateCosts(recipes, maxLevel, gemPrice, cangbaogePrice, synthesisCosts = {}) {
-  const cache = { 1: 1 }
-  function getCount(level) {
+export function calculateCosts(
+  recipes: Record<number, Recipe>,
+  maxLevel: number,
+  gemPrice: number,
+  cangbaogePrice: number,
+  synthesisCosts: Record<number, number> = {},
+): CostRow[] {
+  const cache: Record<number, number> = { 1: 1 }
+  function getCount(level: number): number {
     if (cache[level] !== undefined) return cache[level]
     const recipe = recipes[level]
     if (!recipe) return 0
@@ -40,7 +59,7 @@ export function calculateCosts(recipes, maxLevel, gemPrice, cangbaogePrice, synt
     return total
   }
 
-  const rows = []
+  const rows: CostRow[] = []
   for (let level = 1; level <= maxLevel; level++) {
     const level1Count = getCount(level)
     const materialCostLiang = level1Count * gemPrice
@@ -64,6 +83,6 @@ export function calculateCosts(recipes, maxLevel, gemPrice, cangbaogePrice, synt
 }
 
 // 元/3000万两
-export function get3000wanPrice(cangbaogePrice) {
+export function get3000wanPrice(cangbaogePrice: number): number {
   return cangbaogePrice * 3000
 }
