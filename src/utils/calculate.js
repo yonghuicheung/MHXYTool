@@ -27,7 +27,7 @@ export function formatRecipe(level) {
 }
 
 // Calculate all costs for levels 1..MAX_LEVEL
-export function calculateCosts(gemPrice, cangbaogePrice, synthesisCosts) {
+export function calculateCosts(gemPrice, cangbaogePrice, synthesisCosts = {}) {
   const rows = []
   for (let level = 1; level <= MAX_LEVEL; level++) {
     const level1Count = getLevel1Count(level)
