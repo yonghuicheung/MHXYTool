@@ -161,7 +161,7 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
                         key={tool.id}
                         className={`drawer-card ${tool.id === activeTool ? 'drawer-card-active' : ''}`}
                         disabled={tool.disabled}
-                        style={{ animationDelay: `${0.05 * (cardIndex - 1)}s` }}
+                        style={{ animationDelay: `${0.08 * (cardIndex - 1)}s` }}
                         onClick={() => handleSelect(tool.id)}
                       >
                         <span className="drawer-card-label">{tool.label}</span>
