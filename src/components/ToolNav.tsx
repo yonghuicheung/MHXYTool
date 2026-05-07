@@ -13,6 +13,7 @@ const tools: Tool[] = [
   { id: 'gem-calculator', label: '宝石成本' },
   { id: 'star-stone-calculator', label: '星辉石' },
   { id: 'color-dust-calculator', label: '五色灵尘' },
+  { id: 'pet-cultivation-calculator', label: '召唤兽修炼' },
 ]
 
 interface ToolNavProps {
