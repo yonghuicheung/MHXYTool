@@ -3,6 +3,8 @@ import type { Recipe } from '../data/gemRecipes'
 export interface CostRow {
   level: number
   recipe: string
+  recipeMain: string
+  recipeExtras: string[]
   level1Count: number
   materialCostLiang: number
   materialCostYuan: number
@@ -70,9 +72,17 @@ export function calculateCosts(
     const totalCostLiang = materialCostLiang + synthesisCost
     const totalCostYuan = totalCostLiang / 10000 * cangbaogePrice
 
+    const recipeParts = Object.entries(recipes[level] || {})
+      .sort((a, b) => Number(b[0]) - Number(a[0]))
+      .map(([lvl, count]) => `${count}个${lvl}级`)
+    const recipeMain = recipeParts.length > 0 ? recipeParts[0] : ''
+    const recipeExtras = recipeParts.slice(1)
+
     rows.push({
       level,
-      recipe: formatRecipe(recipes, level),
+      recipe: level === 1 ? '—' : recipeParts.join('+'),
+      recipeMain,
+      recipeExtras,
       level1Count,
       materialCostLiang,
       materialCostYuan,

@@ -56,7 +56,25 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
           {rows.map((row) => (
             <tr key={row.level}>
               <td className="cell-level">{row.level}</td>
-              <td className="cell-recipe">{row.recipe}</td>
+              <td className="cell-recipe">
+                {row.recipeMain ? (
+                  <div className="recipe-layout">
+                    <span className="recipe-main">{row.recipeMain}</span>
+                    {row.recipeExtras.length > 0 && (
+                      <>
+                        <span className="recipe-plus">+</span>
+                        <span className="recipe-extras">
+                          {row.recipeExtras.map((e, i) => (
+                            <span key={i}>{e}</span>
+                          ))}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <span>—</span>
+                )}
+              </td>
               <td className="cell-number">{row.level1Count.toLocaleString('zh-CN')}</td>
               <td className={`cell-number ${getLiangColor(row.materialCostLiang)}`}>{formatAmount(row.materialCostLiang)}</td>
               <td className="cell-number">{formatAmount(row.materialCostYuan)}</td>

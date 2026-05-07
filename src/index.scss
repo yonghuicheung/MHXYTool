@@ -228,7 +228,31 @@ body {
 
 .cell-recipe {
   text-align: left !important;
-  padding-left: 8px !important;
+  padding: 4px 8px !important;
+  vertical-align: middle;
+}
+
+.recipe-layout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recipe-main {
+  color: #dc2626;
+  white-space: nowrap;
+}
+
+.recipe-plus {
+  color: #999;
+  font-weight: 600;
+}
+
+.recipe-extras {
+  display: flex;
+  flex-direction: column;
+  color: #16a34a;
+  line-height: 1.6;
 }
 
 .cell-number {
