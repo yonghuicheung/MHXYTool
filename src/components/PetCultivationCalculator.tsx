@@ -8,12 +8,12 @@ import {
 } from '../data/petCultivation'
 
 export default function PetCultivationCalculator() {
-  const [currentLevel, setCurrentLevel] = useState<number>(0)
-  const [targetLevel, setTargetLevel] = useState<number>(25)
+  const [currentLevel, setCurrentLevel] = useState<number | null>(null)
+  const [targetLevel, setTargetLevel] = useState<number | null>(null)
 
   const result = useMemo(() => {
-    const cur = Math.max(0, Math.min(PET_MAX_LEVEL, Math.floor(currentLevel || 0)))
-    const tgt = Math.max(0, Math.min(PET_MAX_LEVEL, Math.floor(targetLevel || 0)))
+    const cur = Math.max(0, Math.min(PET_MAX_LEVEL, Math.floor(currentLevel ?? 0)))
+    const tgt = Math.max(0, Math.min(PET_MAX_LEVEL, Math.floor(targetLevel ?? 0)))
     if (tgt <= cur) return null
 
     const needExp = PET_CULTIVATION_EXP[tgt] - PET_CULTIVATION_EXP[cur]
@@ -62,8 +62,14 @@ export default function PetCultivationCalculator() {
             max={PET_MAX_LEVEL}
             step="1"
             placeholder="0"
-            value={currentLevel}
-            onChange={(e) => setCurrentLevel(e.target.value === '' ? 0 : Number(e.target.value))}
+            value={currentLevel ?? ''}
+            onChange={(e) => {
+              const v = e.target.value === '' ? null : Number(e.target.value)
+              setCurrentLevel(v)
+              if (v != null && targetLevel != null && targetLevel <= v) {
+                setTargetLevel(Math.min(PET_MAX_LEVEL, v + 1))
+              }
+            }}
           />
         </div>
         <div className="input-group">
@@ -76,8 +82,8 @@ export default function PetCultivationCalculator() {
             max={PET_MAX_LEVEL}
             step="1"
             placeholder="25"
-            value={targetLevel}
-            onChange={(e) => setTargetLevel(e.target.value === '' ? 0 : Number(e.target.value))}
+            value={targetLevel ?? ''}
+            onChange={(e) => setTargetLevel(e.target.value === '' ? null : Number(e.target.value))}
           />
         </div>
       </div>

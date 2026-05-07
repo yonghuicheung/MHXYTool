@@ -4,14 +4,14 @@ import { CULTIVATION_TYPES, EXP_PER_PRACTICE } from '../data/characterCultivatio
 
 export default function CharacterCultivationCalculator() {
   const [typeId, setTypeId] = useState(CULTIVATION_TYPES[0].id)
-  const [currentLevel, setCurrentLevel] = useState<number>(0)
-  const [targetLevel, setTargetLevel] = useState<number>(25)
+  const [currentLevel, setCurrentLevel] = useState<number | null>(null)
+  const [targetLevel, setTargetLevel] = useState<number | null>(null)
 
   const cType = CULTIVATION_TYPES.find((t) => t.id === typeId) ?? CULTIVATION_TYPES[0]
 
   const result = useMemo(() => {
-    const cur = Math.max(0, Math.min(cType.maxLevel, Math.floor(currentLevel || 0)))
-    const tgt = Math.max(0, Math.min(cType.maxLevel, Math.floor(targetLevel || 0)))
+    const cur = Math.max(0, Math.min(cType.maxLevel, Math.floor(currentLevel ?? 0)))
+    const tgt = Math.max(0, Math.min(cType.maxLevel, Math.floor(targetLevel ?? 0)))
     if (tgt <= cur) return null
 
     const needExp = PET_CULTIVATION_EXP[tgt] - PET_CULTIVATION_EXP[cur]
@@ -50,7 +50,7 @@ export default function CharacterCultivationCalculator() {
             value={typeId}
             onChange={(e) => {
               setTypeId(e.target.value)
-              setTargetLevel(0)
+              setTargetLevel(null)
             }}
           >
             {CULTIVATION_TYPES.map((t) => (
@@ -68,8 +68,14 @@ export default function CharacterCultivationCalculator() {
             max={cType.maxLevel}
             step="1"
             placeholder="0"
-            value={currentLevel}
-            onChange={(e) => setCurrentLevel(e.target.value === '' ? 0 : Number(e.target.value))}
+            value={currentLevel ?? ''}
+            onChange={(e) => {
+              const v = e.target.value === '' ? null : Number(e.target.value)
+              setCurrentLevel(v)
+              if (v != null && targetLevel != null && targetLevel <= v) {
+                setTargetLevel(Math.min(cType.maxLevel, v + 1))
+              }
+            }}
           />
         </div>
         <div className="input-group">
@@ -82,8 +88,11 @@ export default function CharacterCultivationCalculator() {
             max={cType.maxLevel}
             step="1"
             placeholder={String(cType.maxLevel)}
-            value={targetLevel}
-            onChange={(e) => setTargetLevel(e.target.value === '' ? 0 : Number(e.target.value))}
+            value={targetLevel ?? ''}
+            onChange={(e) => {
+              const v = e.target.value === '' ? null : Number(e.target.value)
+              setTargetLevel(v)
+            }}
           />
         </div>
       </div>
