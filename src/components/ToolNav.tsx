@@ -28,6 +28,7 @@ const toolGroups: ToolGroup[] = [
     name: '修炼',
     tools: [
       { id: 'pet-cultivation-calculator', label: '召唤兽修炼', desc: '计算修炼经验、修炼果、宠环、秘传次数' },
+      { id: 'character-cultivation-calculator', label: '人物修炼', desc: '攻击/法术/猎术/防御/抗法修炼花费计算' },
     ],
   },
 ]
