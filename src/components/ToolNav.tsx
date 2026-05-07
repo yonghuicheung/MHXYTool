@@ -1,3 +1,8 @@
+import { useState, lazy, Suspense } from 'react'
+import Decimal from 'decimal.js'
+
+const PriceChart = lazy(() => import('./PriceChart'))
+
 interface Tool {
   id: string
   label: string
@@ -10,19 +15,29 @@ const tools: Tool[] = [
   { id: 'color-dust-calculator', label: '五色灵尘' },
 ]
 
-import { useState, lazy, Suspense } from 'react'
-import Decimal from 'decimal.js'
-
-const PriceChart = lazy(() => import('./PriceChart'))
-
 interface ToolNavProps {
   activeTool: string
   onSelect: (toolId: string) => void
   cangbaogePrice: number | null
+  dailyChange: number | null
   onCangbaogePriceChange: (value: number | null) => void
 }
 
-export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangbaogePriceChange }: ToolNavProps) {
+function formatChange(d: number): string {
+  const abs = Math.abs(d)
+  const s = new Decimal(abs).toFixed(2)
+  if (d > 0) return `+${s}`
+  if (d < 0) return `-${s}`
+  return '0'
+}
+
+function changeColor(d: number): string {
+  if (d > 0) return '#dc2626'
+  if (d < 0) return '#16a34a'
+  return '#2563eb'
+}
+
+export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyChange, onCangbaogePriceChange }: ToolNavProps) {
   const [showChart, setShowChart] = useState(false)
   const sanQianWan = cangbaogePrice != null && cangbaogePrice > 0
     ? new Decimal(cangbaogePrice).times(3000).toNumber()
@@ -64,6 +79,11 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangba
               <polyline points="21 5 14 5 21 5 21 12" />
             </svg>
           </button>
+          {dailyChange != null && (
+            <span className="daily-change" style={{ color: changeColor(dailyChange) }}>
+              {formatChange(dailyChange)}
+            </span>
+          )}
           {sanQianWan != null && (
             <span className="exchange-hint">
               {sanQianWan.toFixed(2)} 元/3000万两 | {liangPerDian.toFixed(2)} 两/点 | {wanLiangPerYuan.toFixed(4)} 万两/元 | {wanLiangPerBaiYuan.toFixed(2)} 万两/百元

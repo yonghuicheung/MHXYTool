@@ -44,6 +44,12 @@ export default function PriceChart({ onClose }: PriceChartProps) {
   const [metric, setMetric] = useState<MetricType>('per3000wan')
   const [range, setRange] = useState<RangeType>('1m')
   const [loading, setLoading] = useState(true)
+  const [closing, setClosing] = useState(false)
+
+  const handleClose = () => {
+    setClosing(true)
+    setTimeout(onClose, 200)
+  }
 
   useEffect(() => {
     fetch(import.meta.env.BASE_URL + 'price-history.json')
@@ -67,6 +73,19 @@ export default function PriceChart({ onClose }: PriceChartProps) {
     value: metric === 'per3000wan' ? new Decimal(r.price).times(3000).toNumber() : r.price,
   }))
 
+  let upDays = 0; let downDays = 0; let flatDays = 0; let sumPrice = 0
+  for (let i = 0; i < filtered.length; i++) {
+    const p = metric === 'per3000wan' ? new Decimal(filtered[i].price).times(3000).toNumber() : filtered[i].price
+    sumPrice = new Decimal(sumPrice).plus(p).toNumber()
+    if (i > 0) {
+      const prev = metric === 'per3000wan' ? new Decimal(filtered[i - 1].price).times(3000).toNumber() : filtered[i - 1].price
+      if (p > prev) upDays++
+      else if (p < prev) downDays++
+      else flatDays++
+    }
+  }
+  const avgPrice = filtered.length > 0 ? new Decimal(sumPrice).div(filtered.length).toNumber() : 0
+
   const metricLabel = metric === 'per3000wan' ? '金价(每3000万两)' : '金价(每万两)'
 
   const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: typeof chartData[0] }> }) => {
@@ -81,11 +100,11 @@ export default function PriceChart({ onClose }: PriceChartProps) {
   }
 
   return (
-    <div className="chart-overlay" onClick={onClose}>
-      <div className="chart-modal" onClick={(e) => e.stopPropagation()}>
+    <div className={`chart-overlay ${closing ? 'chart-overlay-closing' : ''}`} onClick={handleClose}>
+      <div className={`chart-modal ${closing ? 'chart-modal-closing' : ''}`} onClick={(e) => e.stopPropagation()}>
         <div className="chart-header">
           <h3 className="chart-title">金价走势</h3>
-          <button className="chart-close" onClick={onClose}>×</button>
+          <button className="chart-close" onClick={handleClose}>×</button>
         </div>
 
         <div className="chart-controls">
@@ -120,27 +139,47 @@ export default function PriceChart({ onClose }: PriceChartProps) {
         ) : chartData.length === 0 ? (
           <p className="chart-loading">暂无数据</p>
         ) : (
-          <ResponsiveContainer width="100%" height={320}>
-            <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-              <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-              <YAxis
-                tick={{ fontSize: 11 }}
-                label={{ value: metricLabel, angle: -90, position: 'insideLeft', style: { fontSize: 11 } }}
-                domain={['auto', 'auto']}
-                tickFormatter={(v: number) => v.toFixed(metric === 'perWan' ? 4 : 2)}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#e94560"
-                strokeWidth={2}
-                dot={{ r: 2, fill: '#e94560' }}
-                activeDot={{ r: 5 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <>
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                <XAxis dataKey="date" tick={{ fontSize: 11 }} />
+                <YAxis
+                  tick={{ fontSize: 11 }}
+                  label={{ value: metricLabel, angle: -90, position: 'insideLeft', style: { fontSize: 11 } }}
+                  domain={['auto', 'auto']}
+                  tickFormatter={(v: number) => v.toFixed(metric === 'perWan' ? 4 : 2)}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#e94560"
+                  strokeWidth={2}
+                  dot={{ r: 2, fill: '#e94560' }}
+                  activeDot={{ r: 5 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+            <div className="chart-stats">
+              <div className="chart-stat">
+                <span className="chart-stat-label">上涨</span>
+                <span className="chart-stat-value chart-stat-up">{upDays} 天</span>
+              </div>
+              <div className="chart-stat">
+                <span className="chart-stat-label">下跌</span>
+                <span className="chart-stat-value chart-stat-down">{downDays} 天</span>
+              </div>
+              <div className="chart-stat">
+                <span className="chart-stat-label">持平</span>
+                <span className="chart-stat-value chart-stat-flat">{flatDays} 天</span>
+              </div>
+              <div className="chart-stat">
+                <span className="chart-stat-label">平均价格</span>
+                <span className="chart-stat-value">{avgPrice.toFixed(metric === 'perWan' ? 6 : 2)}</span>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>
