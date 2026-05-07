@@ -287,3 +287,108 @@ body {
 .liang-red { color: #dc2626; }
 .liang-purple { color: #9333ea; }
 .liang-gold { color: #ca8a04; }
+
+/* Chart trigger icon */
+.chart-trigger {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.chart-trigger:hover {
+  color: #fff;
+}
+
+/* Chart modal overlay */
+.chart-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90vw;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.chart-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+  padding: 0 4px;
+}
+.chart-close:hover { color: #333; }
+
+.chart-controls {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.chart-toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-toggle-label {
+  font-size: 12px;
+  color: #888;
+}
+
+.chart-toggle {
+  padding: 4px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.15s;
+}
+.chart-toggle:hover {
+  border-color: #e94560;
+  color: #e94560;
+}
+.chart-toggle.active {
+  background: #e94560;
+  border-color: #e94560;
+  color: #fff;
+}
+
+.chart-loading {
+  text-align: center;
+  color: #999;
+  padding: 80px 0;
+}

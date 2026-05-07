@@ -10,6 +10,10 @@ const tools: Tool[] = [
   { id: 'color-dust-calculator', label: '五色灵尘' },
 ]
 
+import { useState, lazy, Suspense } from 'react'
+
+const PriceChart = lazy(() => import('./PriceChart'))
+
 interface ToolNavProps {
   activeTool: string
   onSelect: (toolId: string) => void
@@ -18,6 +22,7 @@ interface ToolNavProps {
 }
 
 export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangbaogePriceChange }: ToolNavProps) {
+  const [showChart, setShowChart] = useState(false)
   const sanQianWan = cangbaogePrice != null && cangbaogePrice > 0
     ? cangbaogePrice * 3000
     : null
@@ -48,6 +53,16 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangba
             />
             <span className="exchange-suffix">元/万两</span>
           </span>
+          <button
+            className="chart-trigger"
+            title="金价走势"
+            onClick={() => setShowChart(true)}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 17 9 11 13 15 21 5" />
+              <polyline points="21 5 14 5 21 5 21 12" />
+            </svg>
+          </button>
           {sanQianWan != null && (
             <span className="exchange-hint">
               {sanQianWan.toFixed(2)} 元/3000万两 | {liangPerDian.toFixed(2)} 两/点 | {wanLiangPerYuan.toFixed(4)} 万两/元 | {wanLiangPerBaiYuan.toFixed(2)} 万两/百元
@@ -67,6 +82,11 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangba
           </button>
         ))}
       </div>
+      {showChart && (
+        <Suspense fallback={null}>
+          <PriceChart onClose={() => setShowChart(false)} />
+        </Suspense>
+      )}
     </nav>
   )
 }
