@@ -24,6 +24,12 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangba
   const liangPerDian = cangbaogePrice != null && cangbaogePrice > 0
     ? 1000 / cangbaogePrice
     : null
+  const wanLiangPerYuan = cangbaogePrice != null && cangbaogePrice > 0
+    ? 1 / cangbaogePrice
+    : null
+  const wanLiangPerBaiYuan = cangbaogePrice != null && cangbaogePrice > 0
+    ? 100 / cangbaogePrice
+    : null
 
   return (
     <nav className="tool-nav">
@@ -44,7 +50,7 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangba
           </span>
           {sanQianWan != null && (
             <span className="exchange-hint">
-              {sanQianWan.toFixed(2)} 元/3000万两 | {liangPerDian.toFixed(2)} 两/点
+              {sanQianWan.toFixed(2)} 元/3000万两 | {liangPerDian.toFixed(2)} 两/点 | {wanLiangPerYuan.toFixed(4)} 万两/元 | {wanLiangPerBaiYuan.toFixed(2)} 万两/百元
             </span>
           )}
         </div>
