@@ -27,13 +27,14 @@ export default function CharacterCultivationCalculator() {
     // 帮贡上限 requirement (not consumed)
     const reqBangGong = tgt * 150
 
-    // 快速修炼: same cost, instant completion
+    // 快速修炼: same money cost + consumes 帮贡, no 资材
     const quickCost = totalCostWan
+    const quickBangGong = practiceCount
 
     // 无帮贡修炼: through NPC, 2x cost (estimated)
     const noBangCost = totalCostWan * 2
 
-    return { cur, tgt, needExp, practiceCount, totalCostWan, materials, reqLevel, reqBangGong, quickCost, noBangCost }
+    return { cur, tgt, needExp, practiceCount, totalCostWan, materials, reqLevel, reqBangGong, quickCost, quickBangGong, noBangCost }
   }, [typeId, currentLevel, targetLevel, cType])
 
   return (
@@ -119,14 +120,14 @@ export default function CharacterCultivationCalculator() {
           <div className="pet-result-card">
             <span className="pet-result-label">快速修炼</span>
             <span className="pet-result-value">
-              无需资材和帮贡上限，花费 <strong className="pet-num">{result.quickCost.toLocaleString('zh-CN')}</strong> 万两（每点修炼经验花费与帮派修炼相同）
+              需要消耗 <strong className="pet-num">{result.quickBangGong.toLocaleString('zh-CN')}</strong> 帮贡，不消耗资材，不需要帮贡上限，花费 <strong className="pet-num">{result.quickCost.toLocaleString('zh-CN')}</strong> 万两
             </span>
           </div>
 
           <div className="pet-result-card">
             <span className="pet-result-label">无帮贡修炼</span>
             <span className="pet-result-value">
-              无需资材和帮贡上限，花费 <strong className="pet-num">{result.noBangCost.toLocaleString('zh-CN')}</strong> 万两（NPC修炼指导人，花费约为帮派修炼的2倍）
+              无需资材、帮贡和帮贡上限，花费 <strong className="pet-num">{result.noBangCost.toLocaleString('zh-CN')}</strong> 万两（NPC修炼指导人，花费约为帮派修炼的2倍）
             </span>
           </div>
         </div>
