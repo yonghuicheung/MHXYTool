@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import Decimal from 'decimal.js'
 import ToolNav from './components/ToolNav'
 import GemCalculator from './components/GemCalculator'
 import StarStoneCalculator from './components/StarStoneCalculator'
@@ -18,7 +19,7 @@ export default function App() {
           setCangbaogePrice(last.price)
           if (data.length >= 2) {
             const prev = data[data.length - 2]
-            setDailyChange(last.price - prev.price)
+            setDailyChange(new Decimal(last.price).minus(prev.price).times(3000).toNumber())
           }
         }
       })

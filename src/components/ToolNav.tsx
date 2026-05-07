@@ -24,17 +24,17 @@ interface ToolNavProps {
 }
 
 function formatChange(d: number): string {
+  if (Math.abs(d) < 0.005) return '0'
   const abs = Math.abs(d)
   const s = new Decimal(abs).toFixed(2)
   if (d > 0) return `+${s}`
-  if (d < 0) return `-${s}`
-  return '0'
+  return `-${s}`
 }
 
 function changeColor(d: number): string {
+  if (Math.abs(d) < 0.005) return '#2563eb'
   if (d > 0) return '#dc2626'
-  if (d < 0) return '#16a34a'
-  return '#2563eb'
+  return '#16a34a'
 }
 
 export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyChange, onCangbaogePriceChange }: ToolNavProps) {
