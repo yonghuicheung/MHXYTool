@@ -6,15 +6,33 @@ const PriceChart = lazy(() => import('./PriceChart'))
 interface Tool {
   id: string
   label: string
+  desc?: string
   disabled?: boolean
 }
 
-const tools: Tool[] = [
-  { id: 'gem-calculator', label: '宝石成本' },
-  { id: 'star-stone-calculator', label: '星辉石' },
-  { id: 'color-dust-calculator', label: '五色灵尘' },
-  { id: 'pet-cultivation-calculator', label: '召唤兽修炼' },
+interface ToolGroup {
+  name: string
+  tools: Tool[]
+}
+
+const toolGroups: ToolGroup[] = [
+  {
+    name: '合成成本',
+    tools: [
+      { id: 'gem-calculator', label: '宝石成本', desc: '计算1-20级宝石合成所需材料和费用' },
+      { id: 'star-stone-calculator', label: '星辉石', desc: '计算1-11级星辉石合成成本' },
+      { id: 'color-dust-calculator', label: '五色灵尘', desc: '计算1-15级五色灵尘合成成本' },
+    ],
+  },
+  {
+    name: '修炼',
+    tools: [
+      { id: 'pet-cultivation-calculator', label: '召唤兽修炼', desc: '计算修炼经验、修炼果、宠环、秘传次数' },
+    ],
+  },
 ]
+
+const allTools = toolGroups.flatMap((g) => g.tools)
 
 interface ToolNavProps {
   activeTool: string
@@ -42,7 +60,7 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
   const [showChart, setShowChart] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-  const activeLabel = tools.find((t) => t.id === activeTool)?.label ?? ''
+  const activeLabel = allTools.find((t) => t.id === activeTool)?.label ?? ''
 
   const sanQianWan = cangbaogePrice != null && cangbaogePrice > 0
     ? new Decimal(cangbaogePrice).times(3000).toNumber()
@@ -117,22 +135,36 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
 
       {/* Drawer overlay */}
       {drawerOpen && (
-        <div className={`drawer-overlay ${drawerOpen ? '' : 'drawer-overlay-closing'}`} onClick={() => setDrawerOpen(false)} />
+        <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
       )}
       <div className={`drawer ${drawerOpen ? 'drawer-open' : ''}`}>
         <div className="drawer-header">
           <span className="drawer-title">功能模块</span>
+          <button className="drawer-close" onClick={() => setDrawerOpen(false)}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
-        <div className="drawer-list">
-          {tools.map((tool) => (
-            <button
-              key={tool.id}
-              className={`drawer-item ${tool.id === activeTool ? 'drawer-item-active' : ''}`}
-              disabled={tool.disabled}
-              onClick={() => handleSelect(tool.id)}
-            >
-              {tool.label}
-            </button>
+        <div className="drawer-body">
+          {toolGroups.map((group) => (
+            <div key={group.name} className="drawer-group">
+              <h3 className="drawer-group-title">{group.name}</h3>
+              <div className="drawer-cards">
+                {group.tools.map((tool) => (
+                  <button
+                    key={tool.id}
+                    className={`drawer-card ${tool.id === activeTool ? 'drawer-card-active' : ''}`}
+                    disabled={tool.disabled}
+                    onClick={() => handleSelect(tool.id)}
+                  >
+                    <span className="drawer-card-label">{tool.label}</span>
+                    {tool.desc && <span className="drawer-card-desc">{tool.desc}</span>}
+                  </button>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
