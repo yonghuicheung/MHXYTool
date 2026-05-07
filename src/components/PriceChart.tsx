@@ -63,7 +63,7 @@ export default function PriceChart({ onClose }: PriceChartProps) {
   const chartData = filtered.map((r) => ({
     fullDate: r.date,
     date: r.date.slice(5),
-    value: metric === 'per3000wan' ? r.price * 3000 : r.price,
+    value: metric === 'per3000wan' ? Math.round(r.price * 3000 * 1e6) / 1e6 : r.price,
   }))
 
   const metricLabel = metric === 'per3000wan' ? '金价(每3000万两)' : '金价(每万两)'

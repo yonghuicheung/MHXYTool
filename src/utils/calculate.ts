@@ -67,10 +67,10 @@ export function calculateCosts(
   for (let level = 1; level <= maxLevel; level++) {
     const level1Count = getCount(level)
     const materialCostLiang = level1Count * gemPrice
-    const materialCostYuan = materialCostLiang / 10000 * cangbaogePrice
+    const materialCostYuan = round6(materialCostLiang * cangbaogePrice / 10000)
     const synthesisCost = synthesisCosts[level] || 0
     const totalCostLiang = materialCostLiang + synthesisCost
-    const totalCostYuan = totalCostLiang / 10000 * cangbaogePrice
+    const totalCostYuan = round6(totalCostLiang * cangbaogePrice / 10000)
 
     const recipeParts = Object.entries(recipes[level] || {})
       .sort((a, b) => Number(b[0]) - Number(a[0]))
@@ -95,7 +95,11 @@ export function calculateCosts(
   return rows
 }
 
+function round6(n: number): number {
+  return Math.round(n * 1e6) / 1e6
+}
+
 // 元/3000万两
 export function get3000wanPrice(cangbaogePrice: number): number {
-  return cangbaogePrice * 3000
+  return round6(cangbaogePrice * 3000)
 }
