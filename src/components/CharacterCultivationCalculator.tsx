@@ -21,8 +21,8 @@ export default function CharacterCultivationCalculator() {
     // Materials cost: 5 帮派资材 per practice
     const materials = practiceCount * 5
 
-    // Character level requirement: 15 + target * 5, minimum 20
-    const reqLevel = Math.max(20, 15 + tgt * 5)
+    // Character level requirement: 20 + target * 5, minimum 25
+    const reqLevel = Math.max(25, 20 + tgt * 5)
 
     // 帮贡上限 requirement (not consumed)
     const reqBangGong = tgt * 150
