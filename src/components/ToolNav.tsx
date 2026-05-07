@@ -11,6 +11,7 @@ const tools: Tool[] = [
 ]
 
 import { useState, lazy, Suspense } from 'react'
+import Decimal from 'decimal.js'
 
 const PriceChart = lazy(() => import('./PriceChart'))
 
@@ -24,16 +25,16 @@ interface ToolNavProps {
 export default function ToolNav({ activeTool, onSelect, cangbaogePrice, onCangbaogePriceChange }: ToolNavProps) {
   const [showChart, setShowChart] = useState(false)
   const sanQianWan = cangbaogePrice != null && cangbaogePrice > 0
-    ? cangbaogePrice * 3000
+    ? new Decimal(cangbaogePrice).times(3000).toNumber()
     : null
   const liangPerDian = cangbaogePrice != null && cangbaogePrice > 0
-    ? 1000 / cangbaogePrice
+    ? new Decimal(1000).div(cangbaogePrice).toNumber()
     : null
   const wanLiangPerYuan = cangbaogePrice != null && cangbaogePrice > 0
-    ? 1 / cangbaogePrice
+    ? new Decimal(1).div(cangbaogePrice).toNumber()
     : null
   const wanLiangPerBaiYuan = cangbaogePrice != null && cangbaogePrice > 0
-    ? 100 / cangbaogePrice
+    ? new Decimal(100).div(cangbaogePrice).toNumber()
     : null
 
   return (
