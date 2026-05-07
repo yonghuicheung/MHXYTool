@@ -40,6 +40,10 @@ function changeColor(d: number): string {
 
 export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyChange, onCangbaogePriceChange }: ToolNavProps) {
   const [showChart, setShowChart] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
+  const activeLabel = tools.find((t) => t.id === activeTool)?.label ?? ''
+
   const sanQianWan = cangbaogePrice != null && cangbaogePrice > 0
     ? new Decimal(cangbaogePrice).times(3000).toNumber()
     : null
@@ -52,6 +56,11 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
   const wanLiangPerBaiYuan = cangbaogePrice != null && cangbaogePrice > 0
     ? new Decimal(100).div(cangbaogePrice).toNumber()
     : null
+
+  const handleSelect = (toolId: string) => {
+    onSelect(toolId)
+    setDrawerOpen(false)
+  }
 
   return (
     <nav className="tool-nav">
@@ -92,18 +101,42 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
           )}
         </div>
       </div>
-      <div className="tool-nav-tabs">
-        {tools.map((tool) => (
-          <button
-            key={tool.id}
-            className={`tool-nav-tab ${tool.id === activeTool ? 'active' : ''}`}
-            disabled={tool.disabled}
-            onClick={() => onSelect(tool.id)}
-          >
-            {tool.label}
-          </button>
-        ))}
+      <div className="tool-nav-right">
+        <span className="tool-nav-current">{activeLabel}</span>
+        <button
+          className={`menu-btn ${drawerOpen ? 'menu-btn-open' : ''}`}
+          onClick={() => setDrawerOpen(!drawerOpen)}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
       </div>
+
+      {/* Drawer overlay */}
+      {drawerOpen && (
+        <div className={`drawer-overlay ${drawerOpen ? '' : 'drawer-overlay-closing'}`} onClick={() => setDrawerOpen(false)} />
+      )}
+      <div className={`drawer ${drawerOpen ? 'drawer-open' : ''}`}>
+        <div className="drawer-header">
+          <span className="drawer-title">功能模块</span>
+        </div>
+        <div className="drawer-list">
+          {tools.map((tool) => (
+            <button
+              key={tool.id}
+              className={`drawer-item ${tool.id === activeTool ? 'drawer-item-active' : ''}`}
+              disabled={tool.disabled}
+              onClick={() => handleSelect(tool.id)}
+            >
+              {tool.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {showChart && (
         <Suspense fallback={null}>
           <PriceChart onClose={() => setShowChart(false)} />

@@ -99,35 +99,105 @@ body {
   white-space: nowrap;
 }
 
-.tool-nav-tabs {
+/* Right nav */
+.tool-nav-right {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 10px;
 }
 
-.tool-nav-tab {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
+.tool-nav-current {
   font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.menu-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.7);
   cursor: pointer;
-  background: transparent;
-  color: #aaa;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
   transition: all 0.2s;
 }
-
-.tool-nav-tab:hover:not(:disabled) {
-  background: rgba(255,255,255,0.1);
-  color: #ddd;
-}
-
-.tool-nav-tab.active {
-  background: #e94560;
+.menu-btn:hover, .menu-btn-open {
+  border-color: #e94560;
   color: #fff;
 }
 
-.tool-nav-tab:disabled {
+/* Drawer */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(0,0,0,0.4);
+  animation: overlayIn 0.25s ease forwards;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 260px;
+  height: 100vh;
+  z-index: 151;
+  background: #1a1a2e;
+  padding: 20px 0;
+  transition: right 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-open {
+  right: 0;
+}
+
+.drawer-header {
+  padding: 0 20px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 8px;
+}
+
+.drawer-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.drawer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 10px;
+}
+
+.drawer-item {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+.drawer-item:hover:not(:disabled) {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+.drawer-item-active {
+  background: rgba(233,69,96,0.2);
+  color: #e94560;
+  font-weight: 600;
+}
+.drawer-item:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 /* Main Content */
