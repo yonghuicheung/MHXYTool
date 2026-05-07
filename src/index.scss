@@ -249,6 +249,19 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  opacity: 0;
+  animation: cardFlyIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardFlyIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 .drawer-card:hover:not(:disabled) {
   background: rgba(255,255,255,0.1);

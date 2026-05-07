@@ -148,24 +148,31 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
           </button>
         </div>
         <div className="drawer-body">
-          {toolGroups.map((group) => (
-            <div key={group.name} className="drawer-group">
-              <h3 className="drawer-group-title">{group.name}</h3>
-              <div className="drawer-cards">
-                {group.tools.map((tool) => (
-                  <button
-                    key={tool.id}
-                    className={`drawer-card ${tool.id === activeTool ? 'drawer-card-active' : ''}`}
-                    disabled={tool.disabled}
-                    onClick={() => handleSelect(tool.id)}
-                  >
-                    <span className="drawer-card-label">{tool.label}</span>
-                    {tool.desc && <span className="drawer-card-desc">{tool.desc}</span>}
-                  </button>
-                ))}
+          {toolGroups.map((group) => {
+            let cardIndex = 0
+            return (
+              <div key={group.name} className="drawer-group">
+                <h3 className="drawer-group-title">{group.name}</h3>
+                <div className="drawer-cards">
+                  {group.tools.map((tool, i) => {
+                    cardIndex++
+                    return (
+                      <button
+                        key={tool.id}
+                        className={`drawer-card ${tool.id === activeTool ? 'drawer-card-active' : ''}`}
+                        disabled={tool.disabled}
+                        style={{ animationDelay: `${0.05 * (cardIndex - 1)}s` }}
+                        onClick={() => handleSelect(tool.id)}
+                      >
+                        <span className="drawer-card-label">{tool.label}</span>
+                        {tool.desc && <span className="drawer-card-desc">{tool.desc}</span>}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
