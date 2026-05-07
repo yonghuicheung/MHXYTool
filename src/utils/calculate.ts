@@ -61,21 +61,6 @@ export function calculateCosts(
     return total
   }
 
-  const staminaCache: Record<number, number> = { 1: 0 }
-  function getStamina(level: number): number {
-    if (staminaCache[level] !== undefined) return staminaCache[level]
-    if (!staminaPerCraft) return 0
-    const recipe = recipes[level]
-    if (!recipe) return 0
-    let total = 0
-    for (const [componentLevel, count] of Object.entries(recipe)) {
-      total += getStamina(Number(componentLevel)) * count
-    }
-    total += staminaPerCraft[level] || 0
-    staminaCache[level] = total
-    return total
-  }
-
   const rows: CostRow[] = []
   for (let level = 1; level <= maxLevel; level++) {
     const level1Count = getCount(level)
@@ -94,7 +79,7 @@ export function calculateCosts(
       synthesisCost,
       totalCostLiang,
       totalCostYuan,
-      stamina: staminaPerCraft ? getStamina(level) : 0,
+      stamina: staminaPerCraft ? (staminaPerCraft[level] || 0) : 0,
     })
   }
   return rows

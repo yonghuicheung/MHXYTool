@@ -11,7 +11,7 @@ const HEADERS = [
   '总成本（元）',
 ]
 
-function formatLiang(num: number): string {
+function formatAmount(num: number): string {
   const abs = Math.abs(num)
   if (abs >= 100000000) {
     return (num / 100000000).toFixed(2) + '亿'
@@ -30,10 +30,6 @@ function getLiangColor(num: number): string {
   if (abs >= 100000) return 'liang-green'
   if (abs >= 10000) return 'liang-blue'
   return ''
-}
-
-function formatYuan(num: number): string {
-  return num.toFixed(2)
 }
 
 interface ResultTableProps {
@@ -60,10 +56,10 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
           {rows.map((row) => (
             <tr key={row.level}>
               <td className="cell-level">{row.level}</td>
-              <td>{row.recipe}</td>
+              <td className="cell-recipe">{row.recipe}</td>
               <td className="cell-number">{row.level1Count.toLocaleString('zh-CN')}</td>
-              <td className={`cell-number ${getLiangColor(row.materialCostLiang)}`}>{formatLiang(row.materialCostLiang)}</td>
-              <td className="cell-number">{formatYuan(row.materialCostYuan)}</td>
+              <td className={`cell-number ${getLiangColor(row.materialCostLiang)}`}>{formatAmount(row.materialCostLiang)}</td>
+              <td className="cell-number">{formatAmount(row.materialCostYuan)}</td>
               <td className="cell-input">
                 <input
                   type="number"
@@ -74,8 +70,8 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
                   onChange={(e) => onSynthesisCostChange(row.level, e.target.value === '' ? null : Number(e.target.value))}
                 />
               </td>
-              <td className={`cell-number ${getLiangColor(row.totalCostLiang)}`}>{formatLiang(row.totalCostLiang)}</td>
-              <td className="cell-number">{formatYuan(row.totalCostYuan)}</td>
+              <td className={`cell-number ${getLiangColor(row.totalCostLiang)}`}>{formatAmount(row.totalCostLiang)}</td>
+              <td className="cell-number">{formatAmount(row.totalCostYuan)}</td>
               {hasStamina && <td className="cell-number">{row.stamina.toLocaleString('zh-CN')}</td>}
             </tr>
           ))}
