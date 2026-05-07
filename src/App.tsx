@@ -9,11 +9,11 @@ export default function App() {
   const [cangbaogePrice, setCangbaogePrice] = useState<number | null>(null)
 
   useEffect(() => {
-    fetch(import.meta.env.BASE_URL + 'config.json')
+    fetch(import.meta.env.BASE_URL + 'price-history.json')
       .then((res) => res.json())
-      .then((data) => {
-        if (data.cangbaogePrice != null) {
-          setCangbaogePrice(data.cangbaogePrice)
+      .then((data: Array<{ date: string; price: number }>) => {
+        if (data.length > 0) {
+          setCangbaogePrice(data[data.length - 1].price)
         }
       })
       .catch(() => {})

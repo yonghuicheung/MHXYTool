@@ -74,7 +74,7 @@ export default function PriceChart({ onClose }: PriceChartProps) {
     return (
       <div className="chart-tooltip">
         <div className="chart-tooltip-date">{d.fullDate}</div>
-        <div className="chart-tooltip-value">{metricLabel}: {d.value.toFixed(2)}</div>
+        <div className="chart-tooltip-value">{metricLabel}: {d.value}</div>
       </div>
     )
   }
