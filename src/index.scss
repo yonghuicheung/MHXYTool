@@ -141,20 +141,35 @@ body {
 .drawer {
   position: fixed;
   top: 0;
-  right: -100%;
-  width: 100%;
-  max-width: 480px;
+  right: -60%;
+  width: 50vw;
+  min-width: 320px;
   height: 100vh;
   z-index: 151;
   background: #1a1a2e;
-  transition: right 0.25s ease;
+  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  box-shadow: -4px 0 32px rgba(0,0,0,0.3);
 }
 
 .drawer-open {
   right: 0;
+}
+
+@media (max-width: 768px) {
+  .drawer {
+    width: 85vw;
+    right: -85%;
+  }
+}
+
+@media (max-width: 480px) {
+  .drawer {
+    width: 100vw;
+    right: -100%;
+  }
 }
 
 .drawer-header {
@@ -206,9 +221,21 @@ body {
 }
 
 .drawer-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .drawer-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .drawer-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 .drawer-card {
