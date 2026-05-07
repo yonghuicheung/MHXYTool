@@ -41,7 +41,7 @@ export default function StarStoneCalculator({ cangbaogePrice }: CalculatorProps)
             type="number"
             className="text-input"
             min="0"
-            placeholder="例如: 100000"
+            placeholder="例如: 150000"
             value={gemPrice ?? ''}
             onChange={(e) => setGemPrice(e.target.value === '' ? null : Number(e.target.value))}
           />

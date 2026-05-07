@@ -12,7 +12,24 @@ const HEADERS = [
 ]
 
 function formatLiang(num: number): string {
-  return Math.round(num).toLocaleString('zh-CN')
+  const abs = Math.abs(num)
+  if (abs >= 100000000) {
+    return (num / 100000000).toFixed(2) + '亿'
+  }
+  if (abs >= 10000) {
+    return (num / 10000).toFixed(2) + '万'
+  }
+  return num.toFixed(2)
+}
+
+function getLiangColor(num: number): string {
+  const abs = Math.abs(num)
+  if (abs >= 100000000) return 'liang-gold'
+  if (abs >= 10000000) return 'liang-purple'
+  if (abs >= 1000000) return 'liang-red'
+  if (abs >= 100000) return 'liang-green'
+  if (abs >= 10000) return 'liang-blue'
+  return ''
 }
 
 function formatYuan(num: number): string {
@@ -42,7 +59,7 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
               <td className="cell-level">{row.level}</td>
               <td>{row.recipe}</td>
               <td className="cell-number">{row.level1Count.toLocaleString('zh-CN')}</td>
-              <td className="cell-number">{formatLiang(row.materialCostLiang)}</td>
+              <td className={`cell-number ${getLiangColor(row.materialCostLiang)}`}>{formatLiang(row.materialCostLiang)}</td>
               <td className="cell-number">{formatYuan(row.materialCostYuan)}</td>
               <td className="cell-input">
                 <input
@@ -54,7 +71,7 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
                   onChange={(e) => onSynthesisCostChange(row.level, e.target.value === '' ? null : Number(e.target.value))}
                 />
               </td>
-              <td className="cell-number">{formatLiang(row.totalCostLiang)}</td>
+              <td className={`cell-number ${getLiangColor(row.totalCostLiang)}`}>{formatLiang(row.totalCostLiang)}</td>
               <td className="cell-number">{formatYuan(row.totalCostYuan)}</td>
             </tr>
           ))}

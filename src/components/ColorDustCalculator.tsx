@@ -41,7 +41,7 @@ export default function ColorDustCalculator({ cangbaogePrice }: CalculatorProps)
             type="number"
             className="text-input"
             min="0"
-            placeholder="例如: 50000"
+            placeholder="例如: 400000"
             value={gemPrice ?? ''}
             onChange={(e) => setGemPrice(e.target.value === '' ? null : Number(e.target.value))}
           />

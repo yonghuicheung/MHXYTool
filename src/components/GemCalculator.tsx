@@ -41,7 +41,7 @@ export default function GemCalculator({ cangbaogePrice }: CalculatorProps) {
             type="number"
             className="text-input"
             min="0"
-            placeholder="例如: 80000"
+            placeholder="例如: 100000"
             value={gemPrice ?? ''}
             onChange={(e) => setGemPrice(e.target.value === '' ? null : Number(e.target.value))}
           />
