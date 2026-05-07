@@ -7,6 +7,11 @@ interface CalculatorProps {
   cangbaogePrice: number | null
 }
 
+const staminaPerCraft: Record<number, number> = {}
+for (let l = 2; l <= STAR_STONE_MAX_LEVEL; l++) {
+  staminaPerCraft[l] = 30 * l
+}
+
 export default function StarStoneCalculator({ cangbaogePrice }: CalculatorProps) {
   const [gemPrice, setGemPrice] = useState<number | null>(null)
   const [synthesisCosts, setSynthesisCosts] = useState<Record<number, number>>({})
@@ -14,7 +19,7 @@ export default function StarStoneCalculator({ cangbaogePrice }: CalculatorProps)
   const rows = useMemo(() => {
     const price = gemPrice != null && gemPrice > 0 ? gemPrice : 0
     const cbPrice = cangbaogePrice != null && cangbaogePrice > 0 ? cangbaogePrice : 0
-    return calculateCosts(starStoneRecipes, STAR_STONE_MAX_LEVEL, price, cbPrice, synthesisCosts)
+    return calculateCosts(starStoneRecipes, STAR_STONE_MAX_LEVEL, price, cbPrice, synthesisCosts, staminaPerCraft)
   }, [gemPrice, cangbaogePrice, synthesisCosts])
 
   const handleSynthesisCostChange = useCallback((level: number, value: number | null) => {

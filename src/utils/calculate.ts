@@ -9,6 +9,7 @@ export interface CostRow {
   synthesisCost: number
   totalCostLiang: number
   totalCostYuan: number
+  stamina: number
 }
 
 export function getLevel1Count(recipes: Record<number, Recipe>, level: number): number {
@@ -45,6 +46,7 @@ export function calculateCosts(
   gemPrice: number,
   cangbaogePrice: number,
   synthesisCosts: Record<number, number> = {},
+  staminaPerCraft?: Record<number, number>,
 ): CostRow[] {
   const cache: Record<number, number> = { 1: 1 }
   function getCount(level: number): number {
@@ -56,6 +58,21 @@ export function calculateCosts(
       total += getCount(Number(componentLevel)) * count
     }
     cache[level] = total
+    return total
+  }
+
+  const staminaCache: Record<number, number> = { 1: 0 }
+  function getStamina(level: number): number {
+    if (staminaCache[level] !== undefined) return staminaCache[level]
+    if (!staminaPerCraft) return 0
+    const recipe = recipes[level]
+    if (!recipe) return 0
+    let total = 0
+    for (const [componentLevel, count] of Object.entries(recipe)) {
+      total += getStamina(Number(componentLevel)) * count
+    }
+    total += staminaPerCraft[level] || 0
+    staminaCache[level] = total
     return total
   }
 
@@ -77,6 +94,7 @@ export function calculateCosts(
       synthesisCost,
       totalCostLiang,
       totalCostYuan,
+      stamina: staminaPerCraft ? getStamina(level) : 0,
     })
   }
   return rows

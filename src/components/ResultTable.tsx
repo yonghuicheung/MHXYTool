@@ -43,6 +43,8 @@ interface ResultTableProps {
 }
 
 export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChange }: ResultTableProps) {
+  const hasStamina = rows.length > 0 && rows.some((r) => r.stamina > 0)
+
   return (
     <div className="table-wrapper">
       <table className="result-table">
@@ -51,6 +53,7 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
             {HEADERS.map((h) => (
               <th key={h}>{h}</th>
             ))}
+            {hasStamina && <th>体力消耗</th>}
           </tr>
         </thead>
         <tbody>
@@ -73,6 +76,7 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
               </td>
               <td className={`cell-number ${getLiangColor(row.totalCostLiang)}`}>{formatLiang(row.totalCostLiang)}</td>
               <td className="cell-number">{formatYuan(row.totalCostYuan)}</td>
+              {hasStamina && <td className="cell-number">{row.stamina.toLocaleString('zh-CN')}</td>}
             </tr>
           ))}
         </tbody>
