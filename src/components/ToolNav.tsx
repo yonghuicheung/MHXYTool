@@ -7,7 +7,7 @@ interface Tool {
 const tools: Tool[] = [
   { id: 'gem-calculator', label: '宝石成本' },
   { id: 'star-stone-calculator', label: '星辉石' },
-  { id: 'tool-3', label: '工具3', disabled: true },
+  { id: 'color-dust-calculator', label: '五色灵尘' },
 ]
 
 interface ToolNavProps {

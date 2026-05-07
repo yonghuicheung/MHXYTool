@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import ToolNav from './components/ToolNav'
 import GemCalculator from './components/GemCalculator'
 import StarStoneCalculator from './components/StarStoneCalculator'
+import ColorDustCalculator from './components/ColorDustCalculator'
 
 export default function App() {
   const [activeTool, setActiveTool] = useState('gem-calculator')
@@ -29,6 +30,9 @@ export default function App() {
         )}
         {activeTool === 'star-stone-calculator' && (
           <StarStoneCalculator cangbaogePrice={cangbaogePrice} />
+        )}
+        {activeTool === 'color-dust-calculator' && (
+          <ColorDustCalculator cangbaogePrice={cangbaogePrice} />
         )}
       </main>
     </div>
