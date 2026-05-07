@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import ToolNav from './components/ToolNav'
 import GemCalculator from './components/GemCalculator'
 import StarStoneCalculator from './components/StarStoneCalculator'
@@ -7,6 +7,17 @@ import ColorDustCalculator from './components/ColorDustCalculator'
 export default function App() {
   const [activeTool, setActiveTool] = useState('gem-calculator')
   const [cangbaogePrice, setCangbaogePrice] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch(import.meta.env.BASE_URL + 'config.json')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.cangbaogePrice != null) {
+          setCangbaogePrice(data.cangbaogePrice)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const handleSelectTool = useCallback((toolId: string) => {
     setActiveTool(toolId)
