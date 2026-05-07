@@ -85,6 +85,12 @@ export default function PriceChart({ onClose }: PriceChartProps) {
     }
   }
   const avgPrice = filtered.length > 0 ? new Decimal(sumPrice).div(filtered.length).toNumber() : 0
+  let dailyDiff = 0
+  if (filtered.length >= 2) {
+    const lastP = metric === 'per3000wan' ? new Decimal(filtered[filtered.length - 1].price).times(3000).toNumber() : filtered[filtered.length - 1].price
+    const prevP = metric === 'per3000wan' ? new Decimal(filtered[filtered.length - 2].price).times(3000).toNumber() : filtered[filtered.length - 2].price
+    dailyDiff = new Decimal(lastP).minus(prevP).toNumber()
+  }
 
   const metricLabel = metric === 'per3000wan' ? '金价(每3000万两)' : '金价(每万两)'
 
@@ -177,6 +183,12 @@ export default function PriceChart({ onClose }: PriceChartProps) {
               <div className="chart-stat">
                 <span className="chart-stat-label">平均价格</span>
                 <span className="chart-stat-value">{avgPrice.toFixed(metric === 'perWan' ? 6 : 2)}</span>
+              </div>
+              <div className="chart-stat">
+                <span className="chart-stat-label">较前日</span>
+                <span className={`chart-stat-value ${dailyDiff > 0 ? 'chart-stat-up' : dailyDiff < 0 ? 'chart-stat-down' : 'chart-stat-flat'}`}>
+                  {dailyDiff > 0 ? '+' : ''}{dailyDiff.toFixed(metric === 'perWan' ? 6 : 2)}
+                </span>
               </div>
             </div>
           </>
