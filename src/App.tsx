@@ -15,13 +15,15 @@ export default function App() {
   useEffect(() => {
     fetch(import.meta.env.BASE_URL + 'price-history.json')
       .then((res) => res.json())
-      .then((data: Array<{ date: string; price: number }>) => {
+      .then((data: Array<{ date: string; prices: Array<{ time: string; value: number }> }>) => {
         if (data.length > 0) {
-          const last = data[data.length - 1]
-          setCangbaogePrice(last.price)
+          const lastPrices = data[data.length - 1].prices
+          const lastPrice = lastPrices[lastPrices.length - 1].value
+          setCangbaogePrice(lastPrice)
           if (data.length >= 2) {
-            const prev = data[data.length - 2]
-            setDailyChange(new Decimal(last.price).minus(prev.price).times(3000).toNumber())
+            const prevPrices = data[data.length - 2].prices
+            const prevPrice = prevPrices[prevPrices.length - 1].value
+            setDailyChange(new Decimal(lastPrice).minus(prevPrice).times(3000).toNumber())
           }
         }
       })

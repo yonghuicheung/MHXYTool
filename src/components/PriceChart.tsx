@@ -27,14 +27,6 @@ const RANGE_LABELS: Record<RangeType, string> = {
   '1y': '近一年',
 }
 
-function dedupeByDay(data: PriceRecord[]): PriceRecord[] {
-  const map = new Map<string, PriceRecord>()
-  for (const r of data) {
-    map.set(r.date, r)
-  }
-  return Array.from(map.values()).sort((a, b) => a.date.localeCompare(b.date))
-}
-
 interface PriceChartProps {
   onClose: () => void
 }
@@ -54,8 +46,12 @@ export default function PriceChart({ onClose }: PriceChartProps) {
   useEffect(() => {
     fetch(import.meta.env.BASE_URL + 'price-history.json')
       .then((res) => res.json())
-      .then((raw: PriceRecord[]) => {
-        setData(dedupeByDay(raw))
+      .then((raw: Array<{ date: string; prices: Array<{ time: string; value: number }> }>) => {
+        const flat: PriceRecord[] = raw.map((d) => ({
+          date: d.date,
+          price: d.prices[d.prices.length - 1].value,
+        }))
+        setData(flat)
         setLoading(false)
       })
       .catch(() => setLoading(false))
