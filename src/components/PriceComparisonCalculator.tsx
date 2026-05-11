@@ -16,6 +16,22 @@ function formatAmount(s: string): string {
   return parts.join('.')
 }
 
+function formatLiang(s: string, liangUnit: 'liang' | 'wan'): string {
+  if (!s) return ''
+  const n = new Decimal(s)
+  const actual = liangUnit === 'wan' ? n.times(10000) : n
+  const abs = actual.abs()
+  let colorClass = ''
+  if (abs.gte(1e8)) colorClass = 'liang-gold'
+  else if (abs.gte(1e7)) colorClass = 'liang-purple'
+  else if (abs.gte(1e6)) colorClass = 'liang-red'
+  else if (abs.gte(1e5)) colorClass = 'liang-green'
+  else if (abs.gte(1e4)) colorClass = 'liang-blue'
+  const parts = n.toFixed(2).split('.')
+  parts[0] = Number(parts[0]).toLocaleString('zh-CN')
+  return { text: parts.join('.'), colorClass }
+}
+
 export default function PriceComparisonCalculator({ cangbaogePrice }: CalculatorProps) {
   const [values, setValues] = useState<Record<FieldKey, string>>({
     liang: '', dian: '', jingli: '', yuan: '',
@@ -121,9 +137,12 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
             value={values.liang}
             onChange={(e) => handleChange('liang', e.target.value)}
           />
-          {values.liang && (
-            <div className="price-comp-display">{formatAmount(values.liang)} {liangUnitLabel}</div>
-          )}
+          {values.liang && (() => {
+            const f = formatLiang(values.liang, liangUnit)
+            return (
+              <div className={`price-comp-display ${f.colorClass}`}>{f.text} {liangUnitLabel}</div>
+            )
+          })()}
         </div>
 
         {/* Other cards */}
