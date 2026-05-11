@@ -10,11 +10,10 @@ interface CalculatorProps {
 function formatAmount(s: string): string {
   if (!s) return ''
   const n = new Decimal(s)
-  const abs = n.abs()
-  if (abs.gte(1e8)) return n.div(1e8).toFixed(2) + '亿'
-  if (abs.gte(1e4)) return n.div(1e4).toFixed(2) + '万'
-  if (abs.lt(0.01) && abs.gt(0)) return n.toFixed(8)
-  return n.toFixed(4)
+  if (n.abs().lt(0.01) && n.abs().gt(0)) return n.toFixed(8)
+  const parts = n.toFixed(2).split('.')
+  parts[0] = Number(parts[0]).toLocaleString('zh-CN')
+  return parts.join('.')
 }
 
 export default function PriceComparisonCalculator({ cangbaogePrice }: CalculatorProps) {
@@ -24,7 +23,21 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
   const [lastEdited, setLastEdited] = useState<FieldKey | null>(null)
   const [liangUnit, setLiangUnit] = useState<'liang' | 'wan'>('liang')
 
-  const cb = cangbaogePrice != null && cangbaogePrice > 0 ? cangbaogePrice : null
+  const liangUnitLabel = liangUnit === 'wan' ? '万两' : '两'
+
+  const toggleUnit = (unit: typeof liangUnit) => {
+    if (unit === liangUnit || !values.liang) {
+      setLiangUnit(unit)
+      return
+    }
+    const d = new Decimal(values.liang)
+    if (liangUnit === 'liang' && unit === 'wan') {
+      setValues(v => ({ ...v, liang: d.div(10000).toString() }))
+    } else if (liangUnit === 'wan' && unit === 'liang') {
+      setValues(v => ({ ...v, liang: d.times(10000).toString() }))
+    }
+    setLiangUnit(unit)
+  }
 
   const handleChange = useCallback((key: FieldKey, raw: string) => {
     if (raw === '') {
@@ -104,11 +117,11 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
             <div className="price-comp-toggle">
               <button
                 className={`price-comp-toggle-btn ${liangUnit === 'liang' ? 'active' : ''}`}
-                onClick={() => setLiangUnit('liang')}
+                onClick={() => toggleUnit('liang')}
               >两</button>
               <button
                 className={`price-comp-toggle-btn ${liangUnit === 'wan' ? 'active' : ''}`}
-                onClick={() => setLiangUnit('wan')}
+                onClick={() => toggleUnit('wan')}
               >万两</button>
             </div>
           </div>
@@ -121,7 +134,7 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
             onChange={(e) => handleChange('liang', e.target.value)}
           />
           {values.liang && (
-            <div className="price-comp-display">{formatAmount(values.liang)} {liangUnit}</div>
+            <div className="price-comp-display">{formatAmount(values.liang)} {liangUnitLabel}</div>
           )}
         </div>
 
