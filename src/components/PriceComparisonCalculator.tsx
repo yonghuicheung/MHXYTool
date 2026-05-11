@@ -41,6 +41,11 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
 
   const cb = cangbaogePrice != null && cangbaogePrice > 0 ? cangbaogePrice : null
 
+  // Convert input value to actual 两 for calculations
+  const toLiang = (v: Decimal) => liangUnit === 'wan' ? v.times(10000) : v
+  // Convert actual 两 to display value based on unit
+  const fromLiang = (actual: Decimal) => liangUnit === 'wan' ? actual.div(10000) : actual
+
   const handleChange = useCallback((key: FieldKey, raw: string) => {
     if (raw === '') {
       setValues({ liang: '', dian: '', jingli: '', yuan: '' })
@@ -53,53 +58,34 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
     const d = new Decimal(v)
     let liang = ''; let dian = ''; let jingli = ''; let yuan = ''
 
-    // Apply unit multiplier for liang input
-    const getLiang = (val: Decimal) => liangUnit === 'wan' ? val.times(10000) : val
-    const getLiangDisplay = (val: Decimal) => liangUnit === 'wan' ? val.div(10000) : val
-
     if (!cb) {
-      if (key === 'dian') {
-        dian = d.toString()
-        jingli = d.times(10).toString()
-        yuan = d.div(10).toString()
-      } else if (key === 'jingli') {
-        jingli = d.toString()
-        dian = d.div(10).toString()
-        yuan = d.div(100).toString()
-      } else if (key === 'yuan') {
-        yuan = d.toString()
-        dian = d.times(10).toString()
-        jingli = d.times(100).toString()
-      }
-      if (key === 'liang') {
-        liang = getLiang(d).toString()
-      }
+      if (key === 'liang') liang = raw
+      else if (key === 'dian') { dian = raw; jingli = d.times(10).toString(); yuan = d.div(10).toString() }
+      else if (key === 'jingli') { jingli = raw; dian = d.div(10).toString(); yuan = d.div(100).toString() }
+      else if (key === 'yuan') { yuan = raw; dian = d.times(10).toString(); jingli = d.times(100).toString() }
     } else {
       const cbD = new Decimal(cb)
       if (key === 'liang') {
-        const liangD = getLiang(d)
-        liang = liangD.toString()
-        yuan = liangD.times(cbD).div(10000).toString()
-        dian = liangD.times(cbD).div(10000).times(10).toString()
-        jingli = liangD.times(cbD).div(10000).times(100).toString()
+        const actual = toLiang(d)
+        liang = raw
+        yuan = actual.times(cbD).div(10000).toString()
+        dian = actual.times(cbD).div(10000).times(10).toString()
+        jingli = actual.times(cbD).div(10000).times(100).toString()
       } else if (key === 'dian') {
-        dian = d.toString()
+        dian = raw
         yuan = d.div(10).toString()
         jingli = d.times(10).toString()
-        const liangD = d.div(10).div(cbD).times(10000)
-        liang = getLiangDisplay(liangD).toString()
+        liang = fromLiang(d.div(10).div(cbD).times(10000)).toString()
       } else if (key === 'jingli') {
-        jingli = d.toString()
+        jingli = raw
         dian = d.div(10).toString()
         yuan = d.div(100).toString()
-        const liangD = d.div(100).div(cbD).times(10000)
-        liang = getLiangDisplay(liangD).toString()
+        liang = fromLiang(d.div(100).div(cbD).times(10000)).toString()
       } else if (key === 'yuan') {
-        yuan = d.toString()
+        yuan = raw
         dian = d.times(10).toString()
         jingli = d.times(100).toString()
-        const liangD = d.div(cbD).times(10000)
-        liang = getLiangDisplay(liangD).toString()
+        liang = fromLiang(d.div(cbD).times(10000)).toString()
       }
     }
 
