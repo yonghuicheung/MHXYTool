@@ -39,6 +39,8 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
     setLiangUnit(unit)
   }
 
+  const cb = cangbaogePrice != null && cangbaogePrice > 0 ? cangbaogePrice : null
+
   const handleChange = useCallback((key: FieldKey, raw: string) => {
     if (raw === '') {
       setValues({ liang: '', dian: '', jingli: '', yuan: '' })
@@ -164,6 +166,9 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
         ))}
       </div>
 
+      {Object.values(values).every(v => !v) && (
+        <p className="price-comp-empty">在任意输入框中输入数值，其他项将自动换算</p>
+      )}
       <div className="price-comp-note">
         1元 = 10点卡 = 100精力 &nbsp;|&nbsp; 藏宝阁汇率来源：顶部输入框
       </div>
