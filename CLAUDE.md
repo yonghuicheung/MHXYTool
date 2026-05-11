@@ -1,5 +1,9 @@
 # MHXYTool - 梦幻西游工具集
 
+> **会话规则（CRITICAL）**
+> 1. 每次新会话开始，必须先读取本文件了解项目
+> 2. 任何代码或功能变更完成后，必须同步更新本文件以保持文档准确
+
 ## 项目概述
 
 React + Vite + TypeScript 单页应用，梦幻西游端游工具聚合站。部署在 GitHub Pages：`https://yonghuicheung.github.io/MHXYTool/`
