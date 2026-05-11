@@ -1,17 +1,20 @@
 import { useState, useCallback } from 'react'
 import Decimal from 'decimal.js'
 
-const FIELDS = [
-  { key: 'liang', label: '游戏币', unit: '两', placeholder: '输入游戏币数量' },
-  { key: 'dian', label: '点卡', unit: '点', placeholder: '输入点卡数量' },
-  { key: 'jingli', label: '精力', unit: '点', placeholder: '输入精力数量' },
-  { key: 'yuan', label: '人民币', unit: '元', placeholder: '输入人民币金额' },
-] as const
-
-type FieldKey = typeof FIELDS[number]['key']
+type FieldKey = 'liang' | 'dian' | 'jingli' | 'yuan'
 
 interface CalculatorProps {
   cangbaogePrice: number | null
+}
+
+function formatAmount(s: string): string {
+  if (!s) return ''
+  const n = new Decimal(s)
+  const abs = n.abs()
+  if (abs.gte(1e8)) return n.div(1e8).toFixed(2) + '亿'
+  if (abs.gte(1e4)) return n.div(1e4).toFixed(2) + '万'
+  if (abs.lt(0.01) && abs.gt(0)) return n.toFixed(8)
+  return n.toFixed(4)
 }
 
 export default function PriceComparisonCalculator({ cangbaogePrice }: CalculatorProps) {
@@ -19,6 +22,7 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
     liang: '', dian: '', jingli: '', yuan: '',
   })
   const [lastEdited, setLastEdited] = useState<FieldKey | null>(null)
+  const [liangUnit, setLiangUnit] = useState<'liang' | 'wan'>('liang')
 
   const cb = cangbaogePrice != null && cangbaogePrice > 0 ? cangbaogePrice : null
 
@@ -34,8 +38,11 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
     const d = new Decimal(v)
     let liang = ''; let dian = ''; let jingli = ''; let yuan = ''
 
+    // Apply unit multiplier for liang input
+    const getLiang = (val: Decimal) => liangUnit === 'wan' ? val.times(10000) : val
+    const getLiangDisplay = (val: Decimal) => liangUnit === 'wan' ? val.div(10000) : val
+
     if (!cb) {
-      // No exchange rate, only convert between dian/jingli/yuan
       if (key === 'dian') {
         dian = d.toString()
         jingli = d.times(10).toString()
@@ -49,52 +56,81 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
         dian = d.times(10).toString()
         jingli = d.times(100).toString()
       }
-      // liang can't convert without exchange rate
       if (key === 'liang') {
-        liang = raw
+        liang = getLiang(d).toString()
       }
     } else {
       const cbD = new Decimal(cb)
       if (key === 'liang') {
-        liang = d.toString()
-        yuan = d.times(cbD).div(10000).toString()
-        dian = d.times(cbD).div(10000).times(10).toString()
-        jingli = d.times(cbD).div(10000).times(100).toString()
+        const liangD = getLiang(d)
+        liang = liangD.toString()
+        yuan = liangD.times(cbD).div(10000).toString()
+        dian = liangD.times(cbD).div(10000).times(10).toString()
+        jingli = liangD.times(cbD).div(10000).times(100).toString()
       } else if (key === 'dian') {
         dian = d.toString()
         yuan = d.div(10).toString()
         jingli = d.times(10).toString()
-        liang = d.div(10).div(cbD).times(10000).toString()
+        const liangD = d.div(10).div(cbD).times(10000)
+        liang = getLiangDisplay(liangD).toString()
       } else if (key === 'jingli') {
         jingli = d.toString()
         dian = d.div(10).toString()
         yuan = d.div(100).toString()
-        liang = d.div(100).div(cbD).times(10000).toString()
+        const liangD = d.div(100).div(cbD).times(10000)
+        liang = getLiangDisplay(liangD).toString()
       } else if (key === 'yuan') {
         yuan = d.toString()
         dian = d.times(10).toString()
         jingli = d.times(100).toString()
-        liang = d.div(cbD).times(10000).toString()
+        const liangD = d.div(cbD).times(10000)
+        liang = getLiangDisplay(liangD).toString()
       }
     }
 
     setValues({ liang, dian, jingli, yuan })
     setLastEdited(key)
-  }, [cb])
-
-  const formatDisplay = (s: string) => {
-    if (s === '') return ''
-    const n = new Decimal(s)
-    if (n.abs().lt(0.01) && n.abs().gt(0)) return n.toFixed(8)
-    return n.toFixed(4)
-  }
+  }, [cb, liangUnit])
 
   return (
     <section className="tool-section">
       <h2 className="section-title">物价对比计算器</h2>
 
       <div className="price-comp-grid">
-        {FIELDS.map((f) => (
+        {/* Game currency card */}
+        <div className={`price-comp-card ${lastEdited === 'liang' ? 'price-comp-active' : ''}`}>
+          <div className="price-comp-header">
+            <span className="price-comp-label">游戏币</span>
+            <div className="price-comp-toggle">
+              <button
+                className={`price-comp-toggle-btn ${liangUnit === 'liang' ? 'active' : ''}`}
+                onClick={() => setLiangUnit('liang')}
+              >两</button>
+              <button
+                className={`price-comp-toggle-btn ${liangUnit === 'wan' ? 'active' : ''}`}
+                onClick={() => setLiangUnit('wan')}
+              >万两</button>
+            </div>
+          </div>
+          <input
+            type="number"
+            className="price-comp-input"
+            min="0"
+            placeholder={`输入游戏币数量（${liangUnit === 'wan' ? '万两' : '两'}）`}
+            value={values.liang}
+            onChange={(e) => handleChange('liang', e.target.value)}
+          />
+          {values.liang && (
+            <div className="price-comp-display">{formatAmount(values.liang)} {liangUnit}</div>
+          )}
+        </div>
+
+        {/* Other cards */}
+        {([
+          { key: 'dian' as FieldKey, label: '点卡', unit: '点', placeholder: '输入点卡数量' },
+          { key: 'jingli' as FieldKey, label: '精力', unit: '点', placeholder: '输入精力数量' },
+          { key: 'yuan' as FieldKey, label: '人民币', unit: '元', placeholder: '输入人民币金额' },
+        ]).map((f) => (
           <div key={f.key} className={`price-comp-card ${lastEdited === f.key ? 'price-comp-active' : ''}`}>
             <div className="price-comp-header">
               <span className="price-comp-label">{f.label}</span>
@@ -109,7 +145,7 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
               onChange={(e) => handleChange(f.key, e.target.value)}
             />
             {values[f.key] && (
-              <div className="price-comp-display">{formatDisplay(values[f.key])}</div>
+              <div className="price-comp-display">{formatAmount(values[f.key])} {f.unit}</div>
             )}
           </div>
         ))}
