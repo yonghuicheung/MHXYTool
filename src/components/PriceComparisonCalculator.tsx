@@ -61,6 +61,8 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
   // Convert actual 两 to display value based on unit
   const fromLiang = (actual: Decimal) => liangUnit === 'wan' ? actual.div(10000) : actual
 
+  const r6 = (d: Decimal) => d.toDecimalPlaces(6, Decimal.ROUND_DOWN).toString()
+
   const handleChange = useCallback((key: FieldKey, raw: string) => {
     if (raw === '') {
       setValues({ liang: '', dian: '', jingli: '', yuan: '' })
@@ -75,32 +77,32 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
 
     if (!cb) {
       if (key === 'liang') liang = raw
-      else if (key === 'dian') { dian = raw; jingli = d.times(10).toString(); yuan = d.div(10).toString() }
-      else if (key === 'jingli') { jingli = raw; dian = d.div(10).toString(); yuan = d.div(100).toString() }
-      else if (key === 'yuan') { yuan = raw; dian = d.times(10).toString(); jingli = d.times(100).toString() }
+      else if (key === 'dian') { dian = raw; jingli = r6(d.times(10)); yuan = r6(d.div(10)) }
+      else if (key === 'jingli') { jingli = raw; dian = r6(d.div(10)); yuan = r6(d.div(100)) }
+      else if (key === 'yuan') { yuan = raw; dian = r6(d.times(10)); jingli = r6(d.times(100)) }
     } else {
       const cbD = new Decimal(cb)
       if (key === 'liang') {
         const actual = toLiang(d)
         liang = raw
-        yuan = actual.times(cbD).div(10000).toString()
-        dian = actual.times(cbD).div(10000).times(10).toString()
-        jingli = actual.times(cbD).div(10000).times(100).toString()
+        yuan = r6(actual.times(cbD).div(10000))
+        dian = r6(actual.times(cbD).div(10000).times(10))
+        jingli = r6(actual.times(cbD).div(10000).times(100))
       } else if (key === 'dian') {
         dian = raw
-        yuan = d.div(10).toString()
-        jingli = d.times(10).toString()
-        liang = fromLiang(d.div(10).div(cbD).times(10000)).toString()
+        yuan = r6(d.div(10))
+        jingli = r6(d.times(10))
+        liang = r6(fromLiang(d.div(10).div(cbD).times(10000)))
       } else if (key === 'jingli') {
         jingli = raw
-        dian = d.div(10).toString()
-        yuan = d.div(100).toString()
-        liang = fromLiang(d.div(100).div(cbD).times(10000)).toString()
+        dian = r6(d.div(10))
+        yuan = r6(d.div(100))
+        liang = r6(fromLiang(d.div(100).div(cbD).times(10000)))
       } else if (key === 'yuan') {
         yuan = raw
-        dian = d.times(10).toString()
-        jingli = d.times(100).toString()
-        liang = fromLiang(d.div(cbD).times(10000)).toString()
+        dian = r6(d.times(10))
+        jingli = r6(d.times(100))
+        liang = r6(fromLiang(d.div(cbD).times(10000)))
       }
     }
 
