@@ -446,6 +446,14 @@ body {
 .liang-purple { color: #9333ea; }
 .liang-gold { color: #ca8a04; }
 
+.price-comp-display {
+  &.liang-blue { color: #2563eb; }
+  &.liang-green { color: #16a34a; }
+  &.liang-red { color: #dc2626; }
+  &.liang-purple { color: #9333ea; }
+  &.liang-gold { color: #ca8a04; }
+}
+
 /* Chart trigger icon */
 .chart-trigger {
   background: none;

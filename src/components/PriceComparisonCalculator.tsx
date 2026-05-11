@@ -10,11 +10,9 @@ interface CalculatorProps {
 function formatNum(s: string): string {
   if (!s) return ''
   const n = new Decimal(s)
-  const fixed = n.toFixed(6)
-  const parts = fixed.split('.')
+  const parts = n.toFixed(2).split('.')
   parts[0] = Number(parts[0]).toLocaleString('zh-CN')
-  parts[1] = parts[1].replace(/0+$/, '')
-  return parts[1] ? parts.join('.') : parts[0]
+  return parts.join('.')
 }
 
 function formatLiang(s: string, liangUnit: 'liang' | 'wan'): { text: string; colorClass: string } {
@@ -28,12 +26,9 @@ function formatLiang(s: string, liangUnit: 'liang' | 'wan'): { text: string; col
   else if (abs.gte(1e6)) colorClass = 'liang-red'
   else if (abs.gte(1e5)) colorClass = 'liang-green'
   else if (abs.gte(1e4)) colorClass = 'liang-blue'
-  const fixed = n.toFixed(6)
-  const parts = fixed.split('.')
+  const parts = n.toFixed(2).split('.')
   parts[0] = Number(parts[0]).toLocaleString('zh-CN')
-  parts[1] = parts[1].replace(/0+$/, '')
-  const text = parts[1] ? parts.join('.') : parts[0]
-  return { text, colorClass }
+  return { text: parts.join('.'), colorClass }
 }
 
 export default function PriceComparisonCalculator({ cangbaogePrice }: CalculatorProps) {
@@ -137,8 +132,16 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
             type="number"
             className="price-comp-input"
             min="0"
+            step="any"
             placeholder={`输入游戏币数量（${liangUnit === 'wan' ? '万两' : '两'}）`}
             value={values.liang}
+            onInput={(e) => {
+              const t = e.currentTarget as HTMLInputElement
+              const dot = t.value.indexOf('.')
+              if (dot !== -1 && t.value.length - dot > 7) {
+                t.value = t.value.slice(0, dot + 7)
+              }
+            }}
             onChange={(e) => handleChange('liang', e.target.value)}
           />
           {values.liang && (() => {
@@ -164,8 +167,16 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
               type="number"
               className="price-comp-input"
               min="0"
+              step="any"
               placeholder={f.placeholder}
               value={values[f.key]}
+              onInput={(e) => {
+                const t = e.currentTarget as HTMLInputElement
+                const dot = t.value.indexOf('.')
+                if (dot !== -1 && t.value.length - dot > 7) {
+                  t.value = t.value.slice(0, dot + 7)
+                }
+              }}
               onChange={(e) => handleChange(f.key, e.target.value)}
             />
             {values[f.key] && (
