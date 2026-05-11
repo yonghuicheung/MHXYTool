@@ -6,6 +6,7 @@ import StarStoneCalculator from './components/StarStoneCalculator'
 import ColorDustCalculator from './components/ColorDustCalculator'
 import PetCultivationCalculator from './components/PetCultivationCalculator'
 import CharacterCultivationCalculator from './components/CharacterCultivationCalculator'
+import PriceComparisonCalculator from './components/PriceComparisonCalculator'
 
 export default function App() {
   const [activeTool, setActiveTool] = useState('gem-calculator')
@@ -62,6 +63,9 @@ export default function App() {
         )}
         {activeTool === 'character-cultivation-calculator' && (
           <CharacterCultivationCalculator />
+        )}
+        {activeTool === 'price-comparison-calculator' && (
+          <PriceComparisonCalculator cangbaogePrice={cangbaogePrice} />
         )}
       </main>
     </div>

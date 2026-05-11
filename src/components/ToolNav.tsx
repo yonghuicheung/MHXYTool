@@ -25,6 +25,12 @@ const toolGroups: ToolGroup[] = [
     ],
   },
   {
+    name: '物价',
+    tools: [
+      { id: 'price-comparison-calculator', label: '物价对比', desc: '游戏币、点卡、精力、人民币互相换算' },
+    ],
+  },
+  {
     name: '修炼',
     tools: [
       { id: 'pet-cultivation-calculator', label: '召唤兽修炼', desc: '计算修炼经验、修炼果、宠环、秘传次数' },
