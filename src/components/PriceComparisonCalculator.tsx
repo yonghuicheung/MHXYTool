@@ -7,17 +7,18 @@ interface CalculatorProps {
   cangbaogePrice: number | null
 }
 
-function formatAmount(s: string): string {
+function formatNum(s: string): string {
   if (!s) return ''
   const n = new Decimal(s)
-  if (n.abs().lt(0.01) && n.abs().gt(0)) return n.toFixed(8)
-  const parts = n.toFixed(2).split('.')
+  const fixed = n.toFixed(6)
+  const parts = fixed.split('.')
   parts[0] = Number(parts[0]).toLocaleString('zh-CN')
-  return parts.join('.')
+  parts[1] = parts[1].replace(/0+$/, '')
+  return parts[1] ? parts.join('.') : parts[0]
 }
 
-function formatLiang(s: string, liangUnit: 'liang' | 'wan'): string {
-  if (!s) return ''
+function formatLiang(s: string, liangUnit: 'liang' | 'wan'): { text: string; colorClass: string } {
+  if (!s) return { text: '', colorClass: '' }
   const n = new Decimal(s)
   const actual = liangUnit === 'wan' ? n.times(10000) : n
   const abs = actual.abs()
@@ -27,9 +28,12 @@ function formatLiang(s: string, liangUnit: 'liang' | 'wan'): string {
   else if (abs.gte(1e6)) colorClass = 'liang-red'
   else if (abs.gte(1e5)) colorClass = 'liang-green'
   else if (abs.gte(1e4)) colorClass = 'liang-blue'
-  const parts = n.toFixed(2).split('.')
+  const fixed = n.toFixed(6)
+  const parts = fixed.split('.')
   parts[0] = Number(parts[0]).toLocaleString('zh-CN')
-  return { text: parts.join('.'), colorClass }
+  parts[1] = parts[1].replace(/0+$/, '')
+  const text = parts[1] ? parts.join('.') : parts[0]
+  return { text, colorClass }
 }
 
 export default function PriceComparisonCalculator({ cangbaogePrice }: CalculatorProps) {
@@ -165,7 +169,7 @@ export default function PriceComparisonCalculator({ cangbaogePrice }: Calculator
               onChange={(e) => handleChange(f.key, e.target.value)}
             />
             {values[f.key] && (
-              <div className="price-comp-display">{formatAmount(values[f.key])} {f.unit}</div>
+              <div className="price-comp-display">{formatNum(values[f.key])} {f.unit}</div>
             )}
           </div>
         ))}
