@@ -64,12 +64,25 @@ export function calculateCosts(
     return total
   }
 
+  const synthesisCache: Record<number, number> = { 1: 0 }
+  function getAccumulatedSynthesisCost(level: number): number {
+    if (synthesisCache[level] !== undefined) return synthesisCache[level]
+    const recipe = recipes[level]
+    if (!recipe) return 0
+    let total = synthesisCosts[level] || 0
+    for (const [componentLevel, count] of Object.entries(recipe)) {
+      total += getAccumulatedSynthesisCost(Number(componentLevel)) * count
+    }
+    synthesisCache[level] = total
+    return total
+  }
+
   const rows: CostRow[] = []
   for (let level = 1; level <= maxLevel; level++) {
     const level1Count = getCount(level)
     const materialCostLiang = level1Count * gemPrice
     const materialCostYuan = new Decimal(materialCostLiang).times(cangbaogePrice).div(10000).toNumber()
-    const synthesisCost = synthesisCosts[level] || 0
+    const synthesisCost = getAccumulatedSynthesisCost(level)
     const totalCostLiang = materialCostLiang + synthesisCost
     const totalCostYuan = new Decimal(totalCostLiang).times(cangbaogePrice).div(10000).toNumber()
 

@@ -38,6 +38,9 @@ src/
 │   ├── GemCalculator.tsx       # 宝石成本计算器 1-20级
 │   ├── StarStoneCalculator.tsx # 星辉石成本计算器 1-11级
 │   ├── ColorDustCalculator.tsx # 五色灵尘成本计算器 1-15级
+│   ├── ClockStoneCalculator.tsx # 钟灵石成本计算器 1-8级
+│   ├── SpiritStoneCalculator.tsx # 精魄灵石成本计算器 1-10级
+│   ├── MysticBeadCalculator.tsx  # 玄灵珠成本计算器 1-8级
 │   ├── ResultTable.tsx         # 通用结果表格（合成成本类工具共用）
 │   ├── PetCultivationCalculator.tsx    # 召唤兽修炼计算器
 │   ├── CharacterCultivationCalculator.tsx # 人物修炼计算器
@@ -46,6 +49,9 @@ src/
 │   ├── gemRecipes.ts           # 宝石合成配方（1-20级）
 │   ├── starStoneRecipes.ts     # 星辉石合成配方（1-11级）
 │   ├── colorDustRecipes.ts     # 五色灵尘合成配方（1-15级）
+│   ├── clockStoneRecipes.ts    # 钟灵石合成配方（1-8级）
+│   ├── spiritStoneRecipes.ts   # 精魄灵石合成配方（1-10级）
+│   ├── mysticBeadRecipes.ts    # 玄灵珠合成配方（1-8级）
 │   ├── petCultivation.ts       # 修炼经验表（共用，0-25级）
 │   └── characterCultivation.ts # 人物修炼类型定义
 └── utils/
@@ -67,6 +73,9 @@ src/
 | 宝石成本 | 1-20 | 2合1，12级起有额外材料 | 等级×10 |
 | 星辉石 | 1-11 | 3合1，9级起有额外材料 | 等级×30 |
 | 五色灵尘 | 1-15 | 2合1+额外材料 | 等级×30 |
+| 钟灵石 | 1-8 | 3-5合1（不等） | 等级×10 |
+| 精魄灵石 | 1-10 | 2合1，8级起有额外材料 | 2:20, 3:30, 4:40, 5:50, 6:60, 7:70, 8-10:80 |
+| 玄灵珠 | 1-8 | 3合1，5级起有额外材料，合成费固定 | 20×(等级-1) |
 
 ### 修炼类
 | 模块 | 等级 | 公式 |

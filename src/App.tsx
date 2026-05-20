@@ -4,6 +4,9 @@ import ToolNav from './components/ToolNav'
 import GemCalculator from './components/GemCalculator'
 import StarStoneCalculator from './components/StarStoneCalculator'
 import ColorDustCalculator from './components/ColorDustCalculator'
+import ClockStoneCalculator from './components/ClockStoneCalculator'
+import SpiritStoneCalculator from './components/SpiritStoneCalculator'
+import MysticBeadCalculator from './components/MysticBeadCalculator'
 import PetCultivationCalculator from './components/PetCultivationCalculator'
 import CharacterCultivationCalculator from './components/CharacterCultivationCalculator'
 import PriceComparisonCalculator from './components/PriceComparisonCalculator'
@@ -57,6 +60,15 @@ export default function App() {
         )}
         {activeTool === 'color-dust-calculator' && (
           <ColorDustCalculator cangbaogePrice={cangbaogePrice} />
+        )}
+        {activeTool === 'clock-stone-calculator' && (
+          <ClockStoneCalculator cangbaogePrice={cangbaogePrice} />
+        )}
+        {activeTool === 'spirit-stone-calculator' && (
+          <SpiritStoneCalculator cangbaogePrice={cangbaogePrice} />
+        )}
+        {activeTool === 'mystic-bead-calculator' && (
+          <MysticBeadCalculator cangbaogePrice={cangbaogePrice} />
         )}
         {activeTool === 'pet-cultivation-calculator' && (
           <PetCultivationCalculator />

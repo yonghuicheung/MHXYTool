@@ -22,6 +22,9 @@ const toolGroups: ToolGroup[] = [
       { id: 'gem-calculator', label: '宝石成本', desc: '计算1-20级宝石合成所需材料和费用' },
       { id: 'star-stone-calculator', label: '星辉石', desc: '计算1-11级星辉石合成成本' },
       { id: 'color-dust-calculator', label: '五色灵尘', desc: '计算1-15级五色灵尘合成成本' },
+      { id: 'clock-stone-calculator', label: '钟灵石', desc: '计算1-8级钟灵石合成成本' },
+      { id: 'spirit-stone-calculator', label: '精魄灵石', desc: '计算1-10级精魄灵石合成成本' },
+      { id: 'mystic-bead-calculator', label: '玄灵珠', desc: '计算1-8级玄灵珠合成成本' },
     ],
   },
   {

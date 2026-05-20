@@ -36,9 +36,10 @@ interface ResultTableProps {
   rows: CostRow[]
   synthesisCosts: Record<number, number>
   onSynthesisCostChange: (level: number, value: number | null) => void
+  fixedSynthesisCosts?: Record<number, number>
 }
 
-export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChange }: ResultTableProps) {
+export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChange, fixedSynthesisCosts }: ResultTableProps) {
   const hasStamina = rows.length > 0 && rows.some((r) => r.stamina > 0)
 
   return (
@@ -79,14 +80,22 @@ export default function ResultTable({ rows, synthesisCosts, onSynthesisCostChang
               <td className={`cell-number ${getLiangColor(row.materialCostLiang)}`}>{formatAmount(row.materialCostLiang)}</td>
               <td className="cell-number">{formatAmount(row.materialCostYuan)}</td>
               <td className="cell-input">
-                <input
-                  type="number"
-                  className="synthesis-input"
-                  min="0"
-                  placeholder="可选"
-                  value={synthesisCosts[row.level] ?? ''}
-                  onChange={(e) => onSynthesisCostChange(row.level, e.target.value === '' ? null : Number(e.target.value))}
-                />
+                {row.level === 1 ? (
+                  <span className="cell-number">—</span>
+                ) : fixedSynthesisCosts ? (
+                  <span className={`cell-number ${getLiangColor(fixedSynthesisCosts[row.level] || 0)}`}>
+                    {formatAmount(fixedSynthesisCosts[row.level] || 0)}
+                  </span>
+                ) : (
+                  <input
+                    type="number"
+                    className="synthesis-input"
+                    min="0"
+                    placeholder="可选"
+                    value={synthesisCosts[row.level] ?? ''}
+                    onChange={(e) => onSynthesisCostChange(row.level, e.target.value === '' ? null : Number(e.target.value))}
+                  />
+                )}
               </td>
               <td className={`cell-number ${getLiangColor(row.totalCostLiang)}`}>{formatAmount(row.totalCostLiang)}</td>
               <td className="cell-number">{formatAmount(row.totalCostYuan)}</td>
