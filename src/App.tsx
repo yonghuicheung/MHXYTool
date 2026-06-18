@@ -15,6 +15,7 @@ import GuideViewer from './components/GuideViewer'
 // 攻略列表：id / label / markdown文件路径
 const guides: Record<string, string> = {
   'guide-pantaoyan': 'guides/蟠桃宴.md',
+  'guide-qingqiu': 'guides/青丘迷雾.md',
 }
 
 export default function App() {

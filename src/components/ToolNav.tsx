@@ -45,6 +45,7 @@ const toolGroups: ToolGroup[] = [
     name: '攻略',
     tools: [
       { id: 'guide-pantaoyan', label: '蟠桃宴', desc: '天命侠士副本·蟠桃宴全流程攻略' },
+      { id: 'guide-qingqiu', label: '青丘迷雾', desc: '青丘迷雾副本全流程攻略' },
     ],
   },
 ]

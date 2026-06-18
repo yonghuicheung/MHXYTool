@@ -1,4 +1,3 @@
 '/Users/zhangyonghui/work/personal/test/CLAUDE.md'是项目文档，要先读取。
-继续添加新的功能模块-攻略
-先添加第一个攻略：副本-蟠桃宴
-网址是这个https://ds.163.com/article/69bad96abdd48a28c793feed/，要其中的内容就行，如果你不能读取的话，告诉我你能支持什么方式来展示，攻略中有图片和文字
+继续添加下一个攻略：副本-青丘迷雾
+'/Users/zhangyonghui/Documents/Obsidian/攻略.md' 
