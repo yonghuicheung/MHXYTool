@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "decimal.js": "^10.6.0",
