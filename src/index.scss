@@ -99,6 +99,14 @@ body {
   white-space: nowrap;
 }
 
+.exchange-hint-mobile {
+  display: none;
+  font-size: 12px;
+  color: #e94560;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 /* Right nav */
 .tool-nav-right {
   display: flex;
@@ -975,6 +983,10 @@ body {
 
   .exchange-hint {
     display: none;
+  }
+
+  .exchange-hint-mobile {
+    display: inline;
   }
 
   .tool-nav-current {

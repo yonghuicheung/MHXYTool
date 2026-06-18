@@ -99,60 +99,65 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
   }
 
   return (
-    <nav className="tool-nav">
-      <div className="tool-nav-left">
-        <h1 className="tool-nav-title">梦幻西游工具集</h1>
-        <div className="tool-nav-exchange">
-          <span className="exchange-input-wrapper">
-            <input
-              type="number"
-              className="exchange-input"
-              min="0"
-              step="0.01"
-              placeholder="藏宝阁价格"
-              value={cangbaogePrice ?? ''}
-              onChange={(e) => onCangbaogePriceChange(e.target.value === '' ? null : Number(e.target.value))}
-            />
-            <span className="exchange-suffix">元/万两</span>
-          </span>
+    <>
+      <nav className="tool-nav">
+        <div className="tool-nav-left">
+          <h1 className="tool-nav-title">梦幻西游工具集</h1>
+          <div className="tool-nav-exchange">
+            <span className="exchange-input-wrapper">
+              <input
+                type="number"
+                className="exchange-input"
+                min="0"
+                step="0.01"
+                placeholder="藏宝阁价格"
+                value={cangbaogePrice ?? ''}
+                onChange={(e) => onCangbaogePriceChange(e.target.value === '' ? null : Number(e.target.value))}
+              />
+              <span className="exchange-suffix">元/万两</span>
+            </span>
+            <button
+              className="chart-trigger"
+              title="金价走势"
+              onClick={() => setShowChart(true)}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 17 9 11 13 15 21 5" />
+                <polyline points="21 5 14 5 21 5 21 12" />
+              </svg>
+            </button>
+            {dailyChange != null && (
+              <span className="daily-change" style={{ color: changeColor(dailyChange) }}>
+                {formatChange(dailyChange)}
+              </span>
+            )}
+            {wanLiangPerYuan != null && (
+              <span className="exchange-hint-mobile">{wanLiangPerYuan.toFixed(4)} 万两/元</span>
+            )}
+            {sanQianWan != null && (
+              <span className="exchange-hint">
+                {sanQianWan.toFixed(2)} 元/3000万两 | {liangPerDian.toFixed(2)} 两/点 | {wanLiangPerYuan.toFixed(4)} 万两/元 | {wanLiangPerBaiYuan.toFixed(2)} 万两/百元
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="tool-nav-right">
+          <ToolSearch tools={allTools} onSelect={handleSelect} />
+          <span className="tool-nav-current">{activeLabel}</span>
           <button
-            className="chart-trigger"
-            title="金价走势"
-            onClick={() => setShowChart(true)}
+            className={`menu-btn ${drawerOpen ? 'menu-btn-open' : ''}`}
+            onClick={() => setDrawerOpen(!drawerOpen)}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="3 17 9 11 13 15 21 5" />
-              <polyline points="21 5 14 5 21 5 21 12" />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
           </button>
-          {dailyChange != null && (
-            <span className="daily-change" style={{ color: changeColor(dailyChange) }}>
-              {formatChange(dailyChange)}
-            </span>
-          )}
-          {sanQianWan != null && (
-            <span className="exchange-hint">
-              {sanQianWan.toFixed(2)} 元/3000万两 | {liangPerDian.toFixed(2)} 两/点 | {wanLiangPerYuan.toFixed(4)} 万两/元 | {wanLiangPerBaiYuan.toFixed(2)} 万两/百元
-            </span>
-          )}
         </div>
-      </div>
-      <div className="tool-nav-right">
-        <ToolSearch tools={allTools} onSelect={handleSelect} />
-        <span className="tool-nav-current">{activeLabel}</span>
-        <button
-          className={`menu-btn ${drawerOpen ? 'menu-btn-open' : ''}`}
-          onClick={() => setDrawerOpen(!drawerOpen)}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-        </button>
-      </div>
+      </nav>
 
-      {/* Drawer overlay */}
+      {/* Drawer 移到 nav 外部，避免 sticky 层叠上下文影响 */}
       {drawerOpen && (
         <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
       )}
@@ -202,6 +207,6 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
           <PriceChart onClose={() => setShowChart(false)} />
         </Suspense>
       )}
-    </nav>
+    </>
   )
 }
