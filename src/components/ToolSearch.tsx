@@ -21,6 +21,7 @@ const pinyinMap: Record<string, string> = {
   物: 'w', 价: 'j', 对: 'd', 比: 'b',
   召: 'z', 唤: 'h', 兽: 's', 修: 'x', 炼: 'l',
   人: 'r',
+  蟠: 'p', 桃: 't', 宴: 'y', 副: 'f', 攻: 'g', 略: 'l',
 }
 
 function getPinyinInitials(text: string): string {
