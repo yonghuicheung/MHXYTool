@@ -33,7 +33,8 @@ src/
 ├── App.tsx                     # 主应用：导航状态 + 藏宝阁价格 + 条件渲染
 ├── index.scss                  # 全局样式
 ├── components/
-│   ├── ToolNav.tsx             # 顶部导航：标题 + 藏宝阁输入 + 涨跌 + 抽屉菜单
+│   ├── ToolNav.tsx             # 顶部导航：标题 + 藏宝阁输入 + 涨跌 + 搜索 + 抽屉菜单
+│   ├── ToolSearch.tsx          # 模块搜索：拼音首字母模糊匹配，下拉选择
 │   ├── PriceChart.tsx          # 金价走势图弹窗（recharts，Suspense懒加载）
 │   ├── GemCalculator.tsx       # 宝石成本计算器 1-20级
 │   ├── StarStoneCalculator.tsx # 星辉石成本计算器 1-11级
@@ -63,6 +64,7 @@ src/
 - **藏宝阁价格**：App 从 `public/price-history.json` 加载最后一条 → 存入 state → 传递给 ToolNav 和所有计算器
 - **price-history.json 格式**：`[{ date, prices: [{ time, value }] }]`，value 为元/万两
 - **合成计算**：`calculateCosts(recipes, maxLevel, gemPrice, cangbaogePrice, synthesisCosts, staminaPerCraft?)` → 返回 `CostRow[]`
+- **搜索**：ToolNav 右侧搜索框 → 拼音首字母/中文子序列模糊匹配 → 下拉选择 → 跳转模块
 - **导航**：ToolNav 右侧三横线按钮 → 抽屉面板（分组卡片：合成成本/物价/修炼）
 
 ## 功能模块

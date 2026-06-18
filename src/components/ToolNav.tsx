@@ -1,5 +1,6 @@
 import { useState, lazy, Suspense } from 'react'
 import Decimal from 'decimal.js'
+import ToolSearch from './ToolSearch'
 
 const PriceChart = lazy(() => import('./PriceChart'))
 
@@ -130,6 +131,7 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
         </div>
       </div>
       <div className="tool-nav-right">
+        <ToolSearch tools={allTools} onSelect={handleSelect} />
         <span className="tool-nav-current">{activeLabel}</span>
         <button
           className={`menu-btn ${drawerOpen ? 'menu-btn-open' : ''}`}
