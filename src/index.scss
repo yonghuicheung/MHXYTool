@@ -966,49 +966,19 @@ body {
 @media (max-width: 1024px) {
   .tool-nav {
     padding: 0 16px;
-    flex-wrap: wrap;
-    min-height: auto;
     gap: 0;
-  }
-
-  .tool-nav-left {
-    flex: 1;
-    min-width: 0;
-    padding: 8px 0;
   }
 
   .tool-nav-title {
     font-size: 15px;
   }
 
-  .tool-nav-exchange {
-    gap: 6px;
-  }
-
-  .exchange-input {
-    width: 100px;
-    font-size: 12px;
-  }
-
   .exchange-hint {
     display: none;
   }
 
-  .tool-nav-right {
-    padding: 8px 0;
-  }
-
   .tool-nav-current {
     display: none;
-  }
-
-  .search-input {
-    width: 110px;
-    font-size: 12px;
-  }
-
-  .search-input:focus {
-    width: 150px;
   }
 
   .main-content {
@@ -1050,22 +1020,10 @@ body {
     font-size: 11px;
   }
 
-  .guide-content h1 {
-    font-size: 20px;
-  }
-
-  .guide-content h2 {
-    font-size: 17px;
-    margin-top: 24px;
-  }
-
-  .guide-content h3 {
-    font-size: 14px;
-  }
-
-  .guide-content img {
-    border-radius: 4px;
-  }
+  .guide-content h1 { font-size: 20px; }
+  .guide-content h2 { font-size: 17px; margin-top: 24px; }
+  .guide-content h3 { font-size: 14px; }
+  .guide-content img { border-radius: 4px; }
 
   .pet-result-card {
     flex-direction: column;
@@ -1078,44 +1036,41 @@ body {
   }
 }
 
-/* 手机 (≤640px) */
+/* 手机 (≤640px) — 左子元素扁平化，实现三行导航 */
 @media (max-width: 640px) {
   .tool-nav {
-    padding: 0 10px;
-  }
-
-  .tool-nav-left {
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 8px 10px;
     gap: 6px;
   }
 
+  /* display:contents 将 title 和 exchange 提升为 .tool-nav 的直接子元素 */
+  .tool-nav-left {
+    display: contents;
+  }
+
+  /* 第一行：标题 + [搜索框 + 菜单按钮] */
   .tool-nav-title {
+    flex: 1;
     font-size: 14px;
-  }
-
-  .tool-nav-exchange {
-    width: 100%;
-  }
-
-  .exchange-input {
-    width: 100px;
+    min-width: 0;
   }
 
   .tool-nav-right {
-    width: 100%;
-    justify-content: space-between;
-    padding: 4px 0 8px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
   }
 
   .search-input {
     width: 100px;
+    font-size: 12px;
   }
 
   .search-input:focus {
-    width: 140px;
+    width: 130px;
+  }
+
+  .menu-btn {
+    padding: 8px 10px;
   }
 
   .search-dropdown {
@@ -1124,8 +1079,19 @@ body {
     min-width: 180px;
   }
 
+  /* 第二行：金价输入 + 走势图 + 涨跌（占满宽强制换行） */
+  .tool-nav-exchange {
+    width: 100%;
+    gap: 6px;
+    order: 1;
+  }
+
+  .exchange-input {
+    width: 100px;
+  }
+
   .main-content {
-    padding: 12px;
+    padding: 10px;
   }
 
   .tool-section {
@@ -1156,31 +1122,13 @@ body {
     width: 95vw;
   }
 
-  .chart-title {
-    font-size: 16px;
-  }
+  .chart-title { font-size: 16px; }
+  .chart-controls { gap: 10px; }
 
-  .chart-controls {
-    gap: 10px;
-  }
-
-  .guide-content h1 {
-    font-size: 18px;
-  }
-
-  .guide-content h2 {
-    font-size: 15px;
-  }
-
-  .guide-content h3 {
-    font-size: 13px;
-  }
-
-  .guide-content p,
-  .guide-content ul,
-  .guide-content ol {
-    font-size: 13px;
-  }
+  .guide-content h1 { font-size: 18px; }
+  .guide-content h2 { font-size: 15px; }
+  .guide-content h3 { font-size: 13px; }
+  .guide-content p, .guide-content ul, .guide-content ol { font-size: 13px; }
 
   .pet-result-card {
     padding: 10px 14px;
