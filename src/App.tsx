@@ -18,10 +18,23 @@ const guides: Record<string, string> = {
   'guide-qingqiu': 'guides/青丘迷雾.md',
 }
 
+// 从 URL hash 读取初始模块
+function getHashTool(): string {
+  const raw = window.location.hash.replace(/^#\/?/, '')
+  return raw || 'gem-calculator'
+}
+
 export default function App() {
-  const [activeTool, setActiveTool] = useState('gem-calculator')
+  const [activeTool, setActiveTool] = useState(getHashTool)
   const [cangbaogePrice, setCangbaogePrice] = useState<number | null>(null)
   const [dailyChange, setDailyChange] = useState<number | null>(null)
+
+  // 监听浏览器前进/后退
+  useEffect(() => {
+    const onHashChange = () => setActiveTool(getHashTool())
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
 
   useEffect(() => {
     fetch(import.meta.env.BASE_URL + 'price-history.json')
@@ -42,6 +55,7 @@ export default function App() {
   }, [])
 
   const handleSelectTool = useCallback((toolId: string) => {
+    window.location.hash = '#' + toolId
     setActiveTool(toolId)
   }, [])
 
