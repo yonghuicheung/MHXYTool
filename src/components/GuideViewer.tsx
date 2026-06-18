@@ -5,6 +5,22 @@ interface GuideViewerProps {
   guidePath: string
 }
 
+// 相对路径图片自动补全 BASE_URL（如 /MHXYTool/）
+function Img(props: React.ImgHTMLAttributes<HTMLImageElement>) {
+  const src = props.src || ''
+  const resolvedSrc = src.startsWith('http') || src.startsWith('/')
+    ? src
+    : import.meta.env.BASE_URL + src
+  return (
+    <img
+      {...props}
+      src={resolvedSrc}
+      loading="lazy"
+      alt={props.alt || ''}
+    />
+  )
+}
+
 export default function GuideViewer({ guidePath }: GuideViewerProps) {
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(true)
@@ -39,7 +55,11 @@ export default function GuideViewer({ guidePath }: GuideViewerProps) {
   return (
     <section className="tool-section">
       <div className="guide-content">
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown
+          components={{ img: Img }}
+        >
+          {content}
+        </ReactMarkdown>
       </div>
     </section>
   )
