@@ -16,7 +16,7 @@ import GuideViewer from './components/GuideViewer'
 const guides: Record<string, string> = {
   'guide-pantaoyan': 'guides/蟠桃宴.md',
   'guide-qingqiu': 'guides/青丘迷雾.md',
-  'guide-neidan': 'guides/任务·内丹点化.md',
+  'guide-neidan': 'guides/内丹点化.md',
 }
 
 // 从 URL hash 读取初始模块
