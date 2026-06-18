@@ -48,6 +48,11 @@ body {
   font-size: 18px;
   font-weight: 700;
   white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.tool-nav-title:hover {
+  opacity: 0.8;
 }
 
 .tool-nav-exchange {

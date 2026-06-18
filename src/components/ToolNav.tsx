@@ -102,7 +102,7 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
     <>
       <nav className="tool-nav">
         <div className="tool-nav-left">
-          <h1 className="tool-nav-title">梦幻西游工具集</h1>
+          <h1 className="tool-nav-title" onClick={() => handleSelect('gem-calculator')}>梦幻西游工具集</h1>
           <div className="tool-nav-exchange">
             <span className="exchange-input-wrapper">
               <input
