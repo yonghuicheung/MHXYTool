@@ -10,6 +10,12 @@ import MysticBeadCalculator from './components/MysticBeadCalculator'
 import PetCultivationCalculator from './components/PetCultivationCalculator'
 import CharacterCultivationCalculator from './components/CharacterCultivationCalculator'
 import PriceComparisonCalculator from './components/PriceComparisonCalculator'
+import GuideViewer from './components/GuideViewer'
+
+// 攻略列表：id / label / markdown文件路径
+const guides: Record<string, string> = {
+  'guide-pantaoyan': 'guides/蟠桃宴.md',
+}
 
 export default function App() {
   const [activeTool, setActiveTool] = useState('gem-calculator')
@@ -78,6 +84,9 @@ export default function App() {
         )}
         {activeTool === 'price-comparison-calculator' && (
           <PriceComparisonCalculator cangbaogePrice={cangbaogePrice} />
+        )}
+        {guides[activeTool] && (
+          <GuideViewer guidePath={guides[activeTool]} />
         )}
       </main>
     </div>

@@ -20,7 +20,10 @@
       "Bash(lsof -ti:5173)",
       "Bash(xargs kill -9)",
       "Bash(curl -s http://localhost:5173)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(sips *)",
+      "Bash(bash *)",
+      "Bash(python3 *)"
     ]
   }
 }

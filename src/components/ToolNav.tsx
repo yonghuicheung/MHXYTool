@@ -41,6 +41,12 @@ const toolGroups: ToolGroup[] = [
       { id: 'character-cultivation-calculator', label: '人物修炼', desc: '攻击/法术/猎术/防御/抗法修炼花费计算' },
     ],
   },
+  {
+    name: '攻略',
+    tools: [
+      { id: 'guide-pantaoyan', label: '蟠桃宴', desc: '天命侠士副本·蟠桃宴全流程攻略' },
+    ],
+  },
 ]
 
 const allTools = toolGroups.flatMap((g) => g.tools)

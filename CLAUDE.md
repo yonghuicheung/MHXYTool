@@ -35,6 +35,7 @@ src/
 ├── components/
 │   ├── ToolNav.tsx             # 顶部导航：标题 + 藏宝阁输入 + 涨跌 + 搜索 + 抽屉菜单
 │   ├── ToolSearch.tsx          # 模块搜索：拼音首字母模糊匹配，下拉选择
+│   ├── GuideViewer.tsx         # 攻略查看器：Markdown渲染，图文混排
 │   ├── PriceChart.tsx          # 金价走势图弹窗（recharts，Suspense懒加载）
 │   ├── GemCalculator.tsx       # 宝石成本计算器 1-20级
 │   ├── StarStoneCalculator.tsx # 星辉石成本计算器 1-11级
@@ -54,6 +55,9 @@ src/
 │   ├── spiritStoneRecipes.ts   # 精魄灵石合成配方（1-10级）
 │   ├── mysticBeadRecipes.ts    # 玄灵珠合成配方（1-8级）
 │   ├── petCultivation.ts       # 修炼经验表（共用，0-25级）
+│   └── characterCultivation.ts # 人物修炼类型定义
+├── public/
+│   └── guides/                 # 攻略Markdown文件       # 修炼经验表（共用，0-25级）
 │   └── characterCultivation.ts # 人物修炼类型定义
 └── utils/
     └── calculate.ts            # 通用计算逻辑：getLevel1Count、formatRecipe、calculateCosts
@@ -87,6 +91,10 @@ src/
 
 ### 物价类
 - 物价对比：游戏币(两/万两) ↔ 点卡 ↔ 精力 ↔ 人民币，1元=10点=100精力
+
+### 攻略类
+- Markdown 文件存放于 `public/guides/`，由 GuideViewer 组件渲染
+- 图文混排，使用 react-markdown 库
 
 ## 关键数值规则
 
