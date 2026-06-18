@@ -20,15 +20,24 @@ React + Vite + TypeScript 单页应用，梦幻西游端游工具聚合站。部
 ## 运行
 
 ```bash
+npm install      # 安装依赖
 npm run dev      # 开发 http://localhost:5173
 npm run build    # 构建到 dist/
-npm run deploy   # 构建 + 增量部署到 GitHub Pages（scripts/deploy.sh）
+npm run deploy   # 构建 + 增量部署到 GitHub Pages
 ```
+
+### 新电脑环境搭建
+```bash
+git clone git@github.com:yonghuicheung/MHXYTool.git
+cd MHXYTool
+npm install
+```
+之后正常使用 `npm run dev` / `npm run deploy` 即可。首次部署时脚本会自动初始化 gh-pages 工作树。
 
 ### 部署机制
 - 使用 Git worktree 维护本地 `.gh-pages-worktree/`，指向 `gh-pages` 分支
 - 每次部署仅推送变更文件（Git 按内容 SHA 比对），图片不变时不重复上传
-- 多机器安全：每台机器独立初始化工作树，push 前 `git reset --hard origin/gh-pages` 对齐
+- 多机器/多人使用安全：每台机器独立工作树，push 前自动 `git reset --hard origin/gh-pages` 对齐远程
 
 ## 项目结构
 
