@@ -5,6 +5,19 @@ interface GuideViewerProps {
   guidePath: string
 }
 
+// 防盗链图片渲染：去除 Referrer 避免 403
+function Img(props: React.ImgHTMLAttributes<HTMLImageElement>) {
+  return (
+    <img
+      {...props}
+      referrerPolicy="no-referrer"
+      crossOrigin="anonymous"
+      loading="lazy"
+      alt={props.alt || ''}
+    />
+  )
+}
+
 export default function GuideViewer({ guidePath }: GuideViewerProps) {
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(true)
@@ -39,7 +52,13 @@ export default function GuideViewer({ guidePath }: GuideViewerProps) {
   return (
     <section className="tool-section">
       <div className="guide-content">
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown
+          components={{
+            img: Img,
+          }}
+        >
+          {content}
+        </ReactMarkdown>
       </div>
     </section>
   )
