@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
+import type { Components } from 'react-markdown'
 
 interface GuideViewerProps {
   guidePath: string
@@ -19,6 +20,24 @@ function Img(props: React.ImgHTMLAttributes<HTMLImageElement>) {
       alt={props.alt || ''}
     />
   )
+}
+
+// 外链新窗口打开
+function A(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const href = props.href || ''
+  const isExternal = href.startsWith('http')
+  return (
+    <a
+      {...props}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
+    />
+  )
+}
+
+const components: Components = {
+  img: Img,
+  a: A,
 }
 
 export default function GuideViewer({ guidePath }: GuideViewerProps) {
@@ -56,7 +75,7 @@ export default function GuideViewer({ guidePath }: GuideViewerProps) {
     <section className="tool-section">
       <div className="guide-content">
         <ReactMarkdown
-          components={{ img: Img }}
+          components={components}
         >
           {content}
         </ReactMarkdown>
