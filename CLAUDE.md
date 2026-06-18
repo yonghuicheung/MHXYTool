@@ -15,15 +15,20 @@ React + Vite + TypeScript 单页应用，梦幻西游端游工具聚合站。部
 - SCSS 样式
 - decimal.js 任意精度计算
 - recharts 图表（懒加载）
-- gh-pages 部署
+- Git 工作树增量部署
 
 ## 运行
 
 ```bash
 npm run dev      # 开发 http://localhost:5173
 npm run build    # 构建到 dist/
-npm run deploy   # 构建 + 部署到 GitHub Pages
+npm run deploy   # 构建 + 增量部署到 GitHub Pages（scripts/deploy.sh）
 ```
+
+### 部署机制
+- 使用 Git worktree 维护本地 `.gh-pages-worktree/`，指向 `gh-pages` 分支
+- 每次部署仅推送变更文件（Git 按内容 SHA 比对），图片不变时不重复上传
+- 多机器安全：每台机器独立初始化工作树，push 前 `git reset --hard origin/gh-pages` 对齐
 
 ## 项目结构
 
