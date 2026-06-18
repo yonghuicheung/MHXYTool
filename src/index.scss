@@ -417,6 +417,7 @@ body {
 /* Result Table */
 .table-wrapper {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .result-table {
@@ -957,4 +958,235 @@ body {
 
 .guide-error {
   color: #dc2626;
+}
+
+/* ===== 响应式适配 ===== */
+
+/* iPad 及以下 (≤1024px) */
+@media (max-width: 1024px) {
+  .tool-nav {
+    padding: 0 16px;
+    flex-wrap: wrap;
+    min-height: auto;
+    gap: 0;
+  }
+
+  .tool-nav-left {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 0;
+  }
+
+  .tool-nav-title {
+    font-size: 15px;
+  }
+
+  .tool-nav-exchange {
+    gap: 6px;
+  }
+
+  .exchange-input {
+    width: 100px;
+    font-size: 12px;
+  }
+
+  .exchange-hint {
+    display: none;
+  }
+
+  .tool-nav-right {
+    padding: 8px 0;
+  }
+
+  .tool-nav-current {
+    display: none;
+  }
+
+  .search-input {
+    width: 110px;
+    font-size: 12px;
+  }
+
+  .search-input:focus {
+    width: 150px;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+
+  .tool-section {
+    padding: 16px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .input-panel {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .text-input {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .result-table {
+    font-size: 11px;
+  }
+
+  .result-table thead th {
+    padding: 6px 4px;
+  }
+
+  .result-table tbody td {
+    padding: 4px;
+  }
+
+  .synthesis-input {
+    width: 60px;
+    font-size: 11px;
+  }
+
+  .guide-content h1 {
+    font-size: 20px;
+  }
+
+  .guide-content h2 {
+    font-size: 17px;
+    margin-top: 24px;
+  }
+
+  .guide-content h3 {
+    font-size: 14px;
+  }
+
+  .guide-content img {
+    border-radius: 4px;
+  }
+
+  .pet-result-card {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chart-stats {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+/* 手机 (≤640px) */
+@media (max-width: 640px) {
+  .tool-nav {
+    padding: 0 10px;
+  }
+
+  .tool-nav-left {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .tool-nav-title {
+    font-size: 14px;
+  }
+
+  .tool-nav-exchange {
+    width: 100%;
+  }
+
+  .exchange-input {
+    width: 100px;
+  }
+
+  .tool-nav-right {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px 0 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .search-input {
+    width: 100px;
+  }
+
+  .search-input:focus {
+    width: 140px;
+  }
+
+  .search-dropdown {
+    right: auto;
+    left: 0;
+    min-width: 180px;
+  }
+
+  .main-content {
+    padding: 12px;
+  }
+
+  .tool-section {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .input-panel {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .text-input {
+    max-width: 100%;
+  }
+
+  .drawer-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-modal {
+    padding: 16px;
+    width: 95vw;
+  }
+
+  .chart-title {
+    font-size: 16px;
+  }
+
+  .chart-controls {
+    gap: 10px;
+  }
+
+  .guide-content h1 {
+    font-size: 18px;
+  }
+
+  .guide-content h2 {
+    font-size: 15px;
+  }
+
+  .guide-content h3 {
+    font-size: 13px;
+  }
+
+  .guide-content p,
+  .guide-content ul,
+  .guide-content ol {
+    font-size: 13px;
+  }
+
+  .pet-result-card {
+    padding: 10px 14px;
+  }
+
+  .pet-result-value {
+    font-size: 13px;
+  }
 }
