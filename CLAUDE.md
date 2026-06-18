@@ -57,8 +57,7 @@ src/
 │   ├── petCultivation.ts       # 修炼经验表（共用，0-25级）
 │   └── characterCultivation.ts # 人物修炼类型定义
 ├── public/
-│   └── guides/                 # 攻略Markdown文件       # 修炼经验表（共用，0-25级）
-│   └── characterCultivation.ts # 人物修炼类型定义
+│   └── guides/                 # 攻略Markdown文件
 └── utils/
     └── calculate.ts            # 通用计算逻辑：getLevel1Count、formatRecipe、calculateCosts
 ```
