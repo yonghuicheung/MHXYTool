@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "decimal.js": "^10.6.0",
+    "pinyin-pro": "^3.28.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-markdown": "^10.1.0",

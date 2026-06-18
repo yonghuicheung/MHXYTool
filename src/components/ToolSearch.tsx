@@ -10,26 +10,22 @@ interface Props {
   onSelect: (id: string) => void
 }
 
-// 拼音首字母映射（仅覆盖模块名称中用到的汉字）
-const pinyinMap: Record<string, string> = {
-  宝: 'b', 石: 's', 成: 'c', 本: 'b',
-  星: 'x', 辉: 'h',
-  五: 'w', 色: 's', 灵: 'l', 尘: 'c',
-  钟: 'z',
-  精: 'j', 魄: 'p',
-  玄: 'x', 珠: 'z',
-  物: 'w', 价: 'j', 对: 'd', 比: 'b',
-  召: 'z', 唤: 'h', 兽: 's', 修: 'x', 炼: 'l',
-  人: 'r',
-  蟠: 'p', 桃: 't', 宴: 'y', 副: 'f', 攻: 'g', 略: 'l',
-}
+// 动态加载拼音库（~200KB），首次聚焦搜索框时加载
+let pinyinFn: ((text: string) => string) | null = null
+let pinyinLoading = false
 
-function getPinyinInitials(text: string): string {
-  let result = ''
-  for (const ch of text) {
-    result += pinyinMap[ch] || ch.toLowerCase()
+function getPinyinInitials(text: string, fallback: boolean): string {
+  if (pinyinFn) {
+    return pinyinFn(text)
   }
-  return result
+  if (!pinyinLoading) {
+    pinyinLoading = true
+    import('pinyin-pro').then(({ pinyin }) => {
+      pinyinFn = (t: string) => pinyin(t, { pattern: 'first', toneType: 'none' })
+    })
+  }
+  // 拼音库未加载时，用原文字做 fallback（中文部分仍可匹配）
+  return fallback ? text.toLowerCase() : ''
 }
 
 // 子序列匹配：query 的每个字符是否按顺序出现在 target 中（可以不连续）
@@ -44,21 +40,39 @@ function isSubsequence(query: string, target: string): boolean {
 function matchTool(query: string, tool: Tool): boolean {
   const q = query.toLowerCase()
   if (!q) return false
-  const initials = getPinyinInitials(tool.label)
-  return isSubsequence(q, initials) || isSubsequence(q, tool.label.toLowerCase())
+  // 中文直接匹配（始终可用）
+  if (isSubsequence(q, tool.label.toLowerCase())) return true
+  // 拼音首字母匹配（可能 fallback）
+  const initials = getPinyinInitials(tool.label, true)
+  if (initials && isSubsequence(q, initials)) return true
+  return false
 }
 
 export default function ToolSearch({ tools, onSelect }: Props) {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
+  const [pinyinReady, setPinyinReady] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
+
+  // 聚焦时触发拼音库加载
+  const handleFocus = () => {
+    setOpen(true)
+    if (!pinyinFn && !pinyinLoading) {
+      pinyinLoading = true
+      import('pinyin-pro').then(({ pinyin }) => {
+        pinyinFn = (t: string) => pinyin(t, { pattern: 'first', toneType: 'none' })
+        setPinyinReady(true)
+      })
+    }
+  }
 
   const matches = useMemo(() => {
     if (!query.trim()) return []
     return tools.filter((t) => matchTool(query, t))
-  }, [query, tools])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, tools, pinyinReady])
 
   // Reset active index when matches change
   useEffect(() => { setActiveIndex(-1) }, [matches])
@@ -103,7 +117,7 @@ export default function ToolSearch({ tools, onSelect }: Props) {
         className="search-input"
         placeholder="搜索模块..."
         value={query}
-        onFocus={() => setOpen(true)}
+        onFocus={handleFocus}
         onBlur={() => setTimeout(() => setOpen(false), 150)}
         onChange={(e) => {
           setQuery(e.target.value)
