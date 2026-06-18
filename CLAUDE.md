@@ -57,7 +57,7 @@ src/
 │   ├── petCultivation.ts       # 修炼经验表（共用，0-25级）
 │   └── characterCultivation.ts # 人物修炼类型定义
 ├── public/
-│   └── guides/                 # 攻略Markdown文件
+│   └── guides/                 # 攻略Markdown（每个攻略独立子目录，图片按出现顺序编号 01.webp）
 └── utils/
     └── calculate.ts            # 通用计算逻辑：getLevel1Count、formatRecipe、calculateCosts
 ```
@@ -68,7 +68,7 @@ src/
 - **price-history.json 格式**：`[{ date, prices: [{ time, value }] }]`，value 为元/万两
 - **合成计算**：`calculateCosts(recipes, maxLevel, gemPrice, cangbaogePrice, synthesisCosts, staminaPerCraft?)` → 返回 `CostRow[]`
 - **搜索**：ToolNav 右侧搜索框 → 拼音首字母/中文子序列模糊匹配 → 下拉选择 → 跳转模块
-- **导航**：ToolNav 右侧三横线按钮 → 抽屉面板（分组卡片：合成成本/物价/修炼）
+- **导航**：ToolNav 右侧三横线按钮 → 抽屉面板（分组卡片：合成成本/物价/修炼/攻略）
 
 ## 功能模块
 
@@ -92,8 +92,14 @@ src/
 - 物价对比：游戏币(两/万两) ↔ 点卡 ↔ 精力 ↔ 人民币，1元=10点=100精力
 
 ### 攻略类
-- Markdown 文件存放于 `public/guides/`，由 GuideViewer 组件渲染
-- 图文混排，使用 react-markdown 库
+- Markdown 文件存放于 `public/guides/`，每个攻略独立子目录，图片按出现顺序编号 `01.webp`
+- 由 GuideViewer 组件渲染（react-markdown），相对路径图片自动补全 BASE_URL
+- 新增攻略步骤：放置 md 到 `public/guides/{攻略名}/` → 在 `App.tsx` 的 `guides` 表添加记录 → 在 `ToolNav.tsx` 的 `toolGroups` 攻略分组添加入口
+
+| 攻略 | 类型 | 图片数 |
+|------|------|--------|
+| 蟠桃宴 | 天命侠士副本 | 10 |
+| 青丘迷雾 | 普通副本 | 36 |
 
 ## 关键数值规则
 
