@@ -47,6 +47,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-pantaoyan', label: '蟠桃宴', desc: '天命侠士副本·蟠桃宴全流程攻略' },
       { id: 'guide-qingqiu', label: '青丘迷雾', desc: '青丘迷雾副本全流程攻略' },
       { id: 'guide-neidan', label: '内丹点化', desc: '召唤兽内丹点化规律与策略' },
+      { id: 'guide-hulao', label: '虎牢魔影', desc: '英雄副本·虎牢魔影全流程攻略' },
     ],
   },
 ]
