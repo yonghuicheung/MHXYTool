@@ -54,6 +54,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-yiguan', label: '副本·衣冠古丘 ★★★☆', desc: '特殊副本全流程+隐藏任务攻略' },
       { id: 'guide-jindoudong', label: '副本·金兜洞兕大王 ★★☆', desc: '10人协作副本全流程攻略' },
       { id: 'guide-shenqixuzhang', label: '神器·序章', desc: '神器任务序章全流程指南' },
+      { id: 'guide-shenqinandu', label: '神器·难度推荐', desc: '神器起/转各任务难度与性价比推荐' },
     ],
   },
 ]
