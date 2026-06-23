@@ -50,6 +50,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-hulao', label: '副本·虎牢魔影 ★★★★', desc: '英雄副本全流程攻略' },
       { id: 'guide-mijing', label: '副本·秘境降妖 ★★★☆', desc: '侠士副本全流程攻略' },
       { id: 'guide-wuxing', label: '副本·五行斗法 ★', desc: '五行斗法全流程攻略' },
+      { id: 'guide-jianling', label: '副本·剑陵魔影 ★★★☆', desc: '探索解谜型副本全攻略' },
     ],
   },
 ]
