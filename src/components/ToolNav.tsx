@@ -49,6 +49,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-neidan', label: '任务·内丹点化', desc: '召唤兽内丹点化规律与策略' },
       { id: 'guide-hulao', label: '副本·虎牢魔影 ★★★★', desc: '英雄副本全流程攻略' },
       { id: 'guide-mijing', label: '副本·秘境降妖 ★★★☆', desc: '侠士副本全流程攻略' },
+      { id: 'guide-wuxing', label: '副本·五行斗法', desc: '五行斗法全流程攻略' },
     ],
   },
 ]
