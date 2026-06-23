@@ -21,6 +21,7 @@ const guides: Record<string, string> = {
   'guide-mijing': 'guides/秘境降妖.md',
   'guide-wuxing': 'guides/五行斗法.md',
   'guide-jianling': 'guides/剑陵魔影.md',
+  'guide-yiguan': 'guides/衣冠古丘.md',
 }
 
 // 从 URL hash 读取初始模块

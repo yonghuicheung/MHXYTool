@@ -51,6 +51,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-mijing', label: '副本·秘境降妖 ★★★☆', desc: '侠士副本全流程攻略' },
       { id: 'guide-wuxing', label: '副本·五行斗法 ★', desc: '五行斗法全流程攻略' },
       { id: 'guide-jianling', label: '副本·剑陵魔影 ★★★☆', desc: '探索解谜型副本全攻略' },
+      { id: 'guide-yiguan', label: '副本·衣冠古丘 ★★★☆', desc: '特殊副本全流程+隐藏任务攻略' },
     ],
   },
 ]
