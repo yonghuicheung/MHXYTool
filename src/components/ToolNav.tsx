@@ -44,11 +44,11 @@ const toolGroups: ToolGroup[] = [
   {
     name: '攻略',
     tools: [
-      { id: 'guide-pantaoyan', label: '蟠桃宴', desc: '天命侠士副本·蟠桃宴全流程攻略' },
-      { id: 'guide-qingqiu', label: '青丘迷雾', desc: '青丘迷雾副本全流程攻略' },
-      { id: 'guide-neidan', label: '内丹点化', desc: '召唤兽内丹点化规律与策略' },
-      { id: 'guide-hulao', label: '虎牢魔影', desc: '英雄副本·虎牢魔影全流程攻略' },
-      { id: 'guide-mijing', label: '秘境降妖', desc: '侠士副本·秘境降妖全流程攻略' },
+      { id: 'guide-pantaoyan', label: '副本·蟠桃宴 ★★★', desc: '天命侠士副本' },
+      { id: 'guide-qingqiu', label: '副本·青丘迷雾 ★★★★', desc: '青丘迷雾全流程攻略' },
+      { id: 'guide-neidan', label: '任务·内丹点化', desc: '召唤兽内丹点化规律与策略' },
+      { id: 'guide-hulao', label: '副本·虎牢魔影 ★★★★', desc: '英雄副本全流程攻略' },
+      { id: 'guide-mijing', label: '副本·秘境降妖 ★★★½', desc: '侠士副本全流程攻略' },
     ],
   },
 ]

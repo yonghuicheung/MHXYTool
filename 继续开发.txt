@@ -1,3 +1,7 @@
 '/Users/zhangyonghui/work/personal/test/CLAUDE.md'是项目文档，要先读取。
-继续添加下一个攻略：副本·秘境降妖
-'/Users/zhangyonghui/Documents/Obsidian/攻略.md' 
+做一下区分，菜单中：攻略中副本的前面加上副本·，和副本攻略的标题一致，任务的加上任务·。
+副本攻略的名称后面加上星星，代表当前副本难度。
+蟠桃宴：3星
+青丘：4星
+虎牢：4星
+秘境降妖：3星半
