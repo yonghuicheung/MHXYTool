@@ -48,7 +48,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-qingqiu', label: '副本·青丘迷雾 ★★★★', desc: '青丘迷雾全流程攻略' },
       { id: 'guide-neidan', label: '任务·内丹点化', desc: '召唤兽内丹点化规律与策略' },
       { id: 'guide-hulao', label: '副本·虎牢魔影 ★★★★', desc: '英雄副本全流程攻略' },
-      { id: 'guide-mijing', label: '副本·秘境降妖 ★★★½', desc: '侠士副本全流程攻略' },
+      { id: 'guide-mijing', label: '副本·秘境降妖 ★★★☆', desc: '侠士副本全流程攻略' },
     ],
   },
 ]
@@ -105,7 +105,7 @@ export default function ToolNav({ activeTool, onSelect, cangbaogePrice, dailyCha
     <>
       <nav className="tool-nav">
         <div className="tool-nav-left">
-          <h1 className="tool-nav-title" onClick={() => handleSelect('gem-calculator')}>梦幻西游工具集</h1>
+          <h1 className="tool-nav-title" onClick={() => handleSelect('gem-calculator')}><span className="title-full">梦幻西游工具集</span><span className="title-module">{activeLabel}</span></h1>
           <div className="tool-nav-exchange">
             <span className="exchange-input-wrapper">
               <input
