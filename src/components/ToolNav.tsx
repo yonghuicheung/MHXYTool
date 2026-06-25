@@ -63,6 +63,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-qitian', label: '副本·齐天大圣 ★★', desc: '10人副本高效速刷攻略' },
       { id: 'guide-danao', label: '副本·大闹天宫 ★★★', desc: '侠士副本全流程+BOSS战详解' },
       { id: 'guide-chechi', label: '副本·车迟斗法 ★', desc: '5人普通副本全流程攻略' },
+      { id: 'guide-tongtian', label: '副本·通天河 ★★★', desc: '侠士附魔副本两队配合攻略' },
     ],
   },
 ]
