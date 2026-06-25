@@ -32,6 +32,7 @@ const guides: Record<string, string> = {
   'guide-houwang': 'guides/猴王出世.md',
   'guide-qitian': 'guides/齐天大圣.md',
   'guide-danao': 'guides/大闹天宫.md',
+  'guide-chechi': 'guides/车迟斗法.md',
 }
 
 // 从 URL hash 读取初始模块
