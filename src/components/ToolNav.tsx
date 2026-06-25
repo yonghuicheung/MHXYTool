@@ -59,6 +59,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-yueguang', label: '神器·起·月光草之逝', desc: '神器起任务新手友好攻略' },
       { id: 'guide-jiuse', label: '奇遇·九色鹿·上', desc: '多结局分支奇遇任务全攻略' },
       { id: 'guide-jiuyou', label: '副本·九幽除名 ★★', desc: '生死簿副本全流程攻略' },
+      { id: 'guide-houwang', label: '副本·猴王出世 ★★', desc: '10人副本速通技巧全流程' },
     ],
   },
 ]
