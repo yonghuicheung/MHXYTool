@@ -60,6 +60,7 @@ const toolGroups: ToolGroup[] = [
       { id: 'guide-jiuse', label: '奇遇·九色鹿·上', desc: '多结局分支奇遇任务全攻略' },
       { id: 'guide-jiuyou', label: '副本·九幽除名 ★★', desc: '生死簿副本全流程攻略' },
       { id: 'guide-houwang', label: '副本·猴王出世 ★★', desc: '10人副本速通技巧全流程' },
+      { id: 'guide-qitian', label: '副本·齐天大圣 ★★', desc: '10人副本高效速刷攻略' },
     ],
   },
 ]
